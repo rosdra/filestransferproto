@@ -38,7 +38,7 @@ class HomeController extends BaseController {
 
         // File path
         $demofilepath = "/home/rosdra/Documents/laravel_commands.txt";
-        $filename = basename($demofilepath);         // $file is set to "index.php"
+        $filename = basename($demofilepath);
 
         // get contents of file
         $filecontents = file_get_contents($demofilepath);
