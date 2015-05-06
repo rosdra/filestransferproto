@@ -24,8 +24,8 @@ class HomeController extends BaseController {
 
         // Get a listing of all of the services you currently have configured in
         // OpenStack.
-        $catalog = $identity->serviceCatalog();
-        $tenantName = $identity->tenantName();
+        //$catalog = $identity->serviceCatalog();
+        //$tenantName = $identity->tenantName();
 
         $storageList = $identity->serviceCatalog('object-store');
         $objectStorageUrl = $storageList[0]['endpoints'][0]['publicURL'];
@@ -33,36 +33,24 @@ class HomeController extends BaseController {
         // Create a new ObjectStorage instance:
         $objectStore = new \OpenStack\ObjectStore\v1\ObjectStorage($token, $objectStorageUrl);
 
-        $objectStore->createContainer('Example');
+        //$objectStore->createContainer('Example');
         $container = $objectStore->container('Example');
 
-        // Or let ObjectStorage figure out which instance to use:
-        //$objectStore = ObjectStorage::newFromIdentity($identity, 'regionOne');
+        // File path
+        $demofilepath = "/home/rosdra/Documents/laravel_commands.txt";
+        $filename = basename($demofilepath);         // $file is set to "index.php"
 
-        // List containers:
-        //print_r($objectStore->containers());
+        // get contents of file
+        $filecontents = file_get_contents($demofilepath);
 
-        // Get a container named 'stuff':
-        //$container = $objectStore->container('stuff');
+        // get file mime type
+        $finfo = new finfo(FILEINFO_MIME);
+        $type = $finfo->file($demofilepath);
 
-        // List all of the objects in that container:
-        //print_r($container->objects());
-
-        // Get an object named 'example.txt'
-        //$obj = $container->object('laravel_commands.txt');
-
-        // Print that object's contents:
-        //print $obj->content();
-
-        // Actually, since it implements __tostring, we could do this:
-        //print $obj;
-
-        /*$name = 'hello.txt';
-        $content = 'Hello World';
-        $mime = 'text/plain';
-        $localObject = new Object($name, $content, $mime);
-        $container->save($localObject);*/
-        $object = $container->object('hello.txt');
+        // Send file to save
+        $localObject = new Object($filename, $filecontents, $type);
+        $container->save($localObject);
+        $object = $container->object($filename);
 
         /*printf("Name: %s \n", $object->name());
         printf("Size: %d \n", $object->contentLength());
