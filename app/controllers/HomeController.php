@@ -10,28 +10,19 @@ class HomeController extends BaseController {
 	{
         // Create a new identity service object, and tell it where to
         // go to authenticate. This URL can be found in your console.
-        $identity = new IdentityService('http://95.110.165.22:35357/v2.0');
+        $identity = new IdentityService($_ENV['swiftendpoint']);
 
         // You can authenticate with a username/password (IdentityService::authenticateAsUser()).
         // In either case you can get the info you need from the console.
-        $username = 'demo';
-        $password = '5f423b77';
-        $tenantName = 'admin';
+        $username = $_ENV['swiftusername'];
+        $password = $_ENV['swiftpassword'];
+        $tenantName = $_ENV['swifttenantname'];
 
-        // $token will be your authorization key when you connect to other
-        // services. You can also get it from $identity->token().
-        $token = $identity->authenticateAsUser($username, $password, null, $tenantName);
+        // Init Utils
+        $objectStoreUtils = new ObjectStoreUtils($identity, $username, $password, $tenantName);
 
-        // Get a listing of all of the services you currently have configured in
-        // OpenStack.
-        //$catalog = $identity->serviceCatalog();
-        //$tenantName = $identity->tenantName();
-
-        $storageList = $identity->serviceCatalog('object-store');
-        $objectStorageUrl = $storageList[0]['endpoints'][0]['publicURL'];
-
-        // Create a new ObjectStorage instance:
-        $objectStore = new \OpenStack\ObjectStore\v1\ObjectStorage($token, $objectStorageUrl);
+        // Get object service
+        $objectStore = $objectStoreUtils->getObjectStore();
 
         //$objectStore->createContainer('Example');
         $container = $objectStore->container('Example');
@@ -75,7 +66,7 @@ class HomeController extends BaseController {
 
         fclose($content);
 
-		return View::make('hello')->with('downURL', URL::to('downloadfile'));
+		return View::make('hello')->with('downURL', URL::to('index.php/downloadfile'));
 	}
 
     public function downloadfile()

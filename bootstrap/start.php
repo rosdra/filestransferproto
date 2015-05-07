@@ -24,11 +24,11 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
+$env = $app->detectEnvironment(function(){
+    if(str_is('ubuntu',gethostname())) return 'develop';
 
-	'local' => array('homestead'),
-
-));
+    return array_get($_SERVER, 'LARAVEL_ENV', false) ?: 'production';
+});
 
 /*
 |--------------------------------------------------------------------------
