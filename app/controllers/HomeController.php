@@ -12,22 +12,20 @@ class HomeController extends BaseController {
         // go to authenticate. This URL can be found in your console.
         $identity = new IdentityService($_ENV['swiftendpoint']);
 
-        // You can authenticate with a username/password (IdentityService::authenticateAsUser()).
-        // In either case you can get the info you need from the console.
-        $username = $_ENV['swiftusername'];
-        $password = $_ENV['swiftpassword'];
-        $tenantName = $_ENV['swifttenantname'];
-
-        // Init Utils
-        $objectStoreUtils = new ObjectStoreUtils($identity, $username, $password, $tenantName);
+        // Init Utils and authenticate
+        $objectStoreUtils = new ObjectStoreUtils($identity, $_ENV['swiftusername'], $_ENV['swiftpassword'], $_ENV['swifttenantname']);
 
         // Get object service
         $objectStore = $objectStoreUtils->getObjectStore();
 
-        //$objectStore->createContainer('Example');
-        $container = $objectStore->container('Example');
+        // Generate UniqueId for the container name. NOTE: has to be stored in Database
+        // To get the file AND delete the container when the file is downloaded
+        $containerName = $objectStoreUtils->generateUniqueId();
 
-        // File path
+        // Create and retrieve the container
+        $container = $objectStoreUtils->createAndRetrieveContainer($objectStore, $containerName);
+
+        // File path (retrieved from the uploader component. TO DO: handle multiple files
         $demofilepath = "/home/rosdra/Documents/laravel_commands.txt";
         $filename = basename($demofilepath);
 
@@ -41,12 +39,11 @@ class HomeController extends BaseController {
         // Send file to save
         $localObject = new Object($filename, $filecontents, $type);
         $container->save($localObject);
-        $object = $container->object($filename);
 
-        /*printf("Name: %s \n", $object->name());
-        printf("Size: %d \n", $object->contentLength());
-        printf("Type: %s \n", $object->contentType());
-        print $object->content() . PHP_EOL;*/
+
+        /****************************For download part************************************/
+        // Get File from container
+        $object = $container->object($filename);
 
         // get basic file data
         Session::put('objectname', $object->name());
@@ -56,7 +53,7 @@ class HomeController extends BaseController {
         // Use stream for large objects
         $content = $object->stream(true);
 
-        // Data containing file contents
+        // Data containing file contents (reading 1mb per iteration)
         $data = '';
         while(!feof($content)) {
             $data .= fread($content, 1024);
@@ -66,6 +63,7 @@ class HomeController extends BaseController {
 
         fclose($content);
 
+        // Hack for local env. cambiar esto cuando estemos en despliegue
 		return View::make('hello')->with('downURL', URL::to('index.php/downloadfile'));
 	}
 

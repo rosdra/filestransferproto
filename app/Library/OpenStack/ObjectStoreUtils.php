@@ -1,6 +1,7 @@
 <?php
 
 use OpenStack\Identity\v2\IdentityService;
+use OpenStack\ObjectStore\v1\ObjectStorage;
 
 class ObjectStoreUtils
 {
@@ -31,8 +32,22 @@ class ObjectStoreUtils
         $objectStorageUrl = $storageList[0]['endpoints'][0]['publicURL'];
 
         // Create a new ObjectStorage instance:
-        $objectStore = new \OpenStack\ObjectStore\v1\ObjectStorage($token, $objectStorageUrl);
+        $objectStore = new ObjectStorage($token, $objectStorageUrl);
 
         return $objectStore;
+    }
+
+    function generateUniqueId() {
+        return uniqid();
+    }
+
+    function createAndRetrieveContainer(ObjectStorage $objectStore = null, $containerName){
+        // Create the container for the file
+        $objectStore->createContainer($containerName);
+
+        // Retrieve the created container
+        $container = $objectStore->container($containerName);
+
+        return $container;
     }
 }
