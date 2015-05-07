@@ -57,7 +57,33 @@ class HomeController extends BaseController {
         printf("Type: %s \n", $object->contentType());
         print $object->content() . PHP_EOL;*/
 
-		return View::make('hello')->with('url', $object->url());
+        // get basic file data
+        $objectname = $object->name();
+        $objectcontentlength = $object->contentLength();
+        $objectcontenttype = $object->contentType();
+
+        // Use stream for large objects
+        $content = $object->stream(true);
+
+        // Data containing file contents
+        $data = '';
+
+        while(!feof($content)) {
+            $data .= fread($content, 1024);
+        }
+
+        fclose($content);
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: '.$objectcontenttype);
+        header('Content-disposition: attachment; filename='.$objectname);
+        header('Content-Length: '.$objectcontentlength);
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Expires: 0');
+        header('Pragma: public');
+        //echo $data;
+
+		return View::make('hello')->with('data', $data);
 	}
 
 }

@@ -5,7 +5,8 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-        "openstack/openstack-sdk-php": "dev-master"
+        "openstack/openstack-sdk-php": "dev-master",
+        "way/generators": "~2.0"
 	},
 	"autoload": {
 		"classmap": [
