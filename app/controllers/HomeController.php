@@ -18,12 +18,9 @@ class HomeController extends BaseController {
         // Get object service
         $objectStore = $objectStoreUtils->getObjectStore();
 
-        // Generate UniqueId for the container name. NOTE: has to be stored in Database
+        // Create and retrieve the container NOTE: has to be stored in Database
         // To get the file AND delete the container when the file is downloaded
-        $containerName = $objectStoreUtils->generateUniqueId();
-
-        // Create and retrieve the container
-        $container = $objectStoreUtils->createAndRetrieveContainer($objectStore, $containerName);
+        $container = $objectStoreUtils->createAndRetrieveContainer($objectStore);
 
         // File path (retrieved from the uploader component. TO DO: handle multiple files
         $demofilepath = "/home/rosdra/Documents/laravel_commands.txt";
