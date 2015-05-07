@@ -6,19 +6,6 @@ use OpenStack\ObjectStore\v1\Resource\Object;
 
 class HomeController extends BaseController {
 
-    private $objectname;
-    private $objectcontentlength;
-    private $objectcontenttype;
-    private $data;
-
-    public function __construct()
-    {
-        $this->objectname = '';
-        $this->objectcontentlength = '';
-        $this->objectcontenttype = '';
-        $this->data = '';
-    }
-
 	public function index()
 	{
         // Create a new identity service object, and tell it where to
@@ -71,17 +58,20 @@ class HomeController extends BaseController {
         print $object->content() . PHP_EOL;*/
 
         // get basic file data
-        $this->objectname = $object->name();
-        $this->objectcontentlength = $object->contentLength();
-        $this->objectcontenttype = $object->contentType();
+        Session::put('objectname', $object->name());
+        Session::put('objectcontentlength', $object->contentLength());
+        Session::put('objectcontenttype', $object->contentType());
 
         // Use stream for large objects
         $content = $object->stream(true);
 
         // Data containing file contents
+        $data = '';
         while(!feof($content)) {
-            $this->data .= fread($content, 1024);
+            $data .= fread($content, 1024);
         }
+
+        Session::put('data', $data);
 
         fclose($content);
 
@@ -90,14 +80,14 @@ class HomeController extends BaseController {
 
     public function downloadfile()
     {
-        header('Content-Description: File Transfer');
-        header('Content-Type: '.$this->objectcontenttype);
-        header('Content-disposition: attachment; filename='.$this->objectname);
-        header('Content-Length: '.$this->objectcontentlength);
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Expires: 0');
-        header('Pragma: public');
-
-        return View::make('downloadfile')->with('data', $this->data);
+        return Response::make(Session::get('data'), 200, array(
+            'Content-Description'       => 'File Transfer',
+            'Content-Type'              => Session::get('objectcontenttype'),
+            'Content-Disposition'       => 'attachment; filename="' . Session::get('objectname') . '"',
+            'Expires'                   => 0,
+            'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+            'Pragma'                    => 'public',
+            'Content-Length'            => Session::get('objectcontentlength')
+        ));
     }
 }

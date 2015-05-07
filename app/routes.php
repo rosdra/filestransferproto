@@ -12,4 +12,4 @@
 */
 
 Route::get('/', 'HomeController@index');
-Route::get('downloadfile', 'HomeController@downloadfile');
+Route::get('/downloadfile', 'HomeController@downloadfile');
