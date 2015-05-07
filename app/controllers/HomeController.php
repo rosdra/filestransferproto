@@ -6,6 +6,19 @@ use OpenStack\ObjectStore\v1\Resource\Object;
 
 class HomeController extends BaseController {
 
+    private $objectname;
+    private $objectcontentlength;
+    private $objectcontenttype;
+    private $data;
+
+    public function __construct()
+    {
+        $this->objectname = '';
+        $this->objectcontentlength = '';
+        $this->objectcontenttype = '';
+        $this->data = '';
+    }
+
 	public function index()
 	{
         // Create a new identity service object, and tell it where to
@@ -58,32 +71,33 @@ class HomeController extends BaseController {
         print $object->content() . PHP_EOL;*/
 
         // get basic file data
-        $objectname = $object->name();
-        $objectcontentlength = $object->contentLength();
-        $objectcontenttype = $object->contentType();
+        $this->objectname = $object->name();
+        $this->objectcontentlength = $object->contentLength();
+        $this->objectcontenttype = $object->contentType();
 
         // Use stream for large objects
         $content = $object->stream(true);
 
         // Data containing file contents
-        $data = '';
-
         while(!feof($content)) {
-            $data .= fread($content, 1024);
+            $this->data .= fread($content, 1024);
         }
 
         fclose($content);
 
+		return View::make('hello')->with('downURL', URL::to('downloadfile'));
+	}
+
+    public function downloadfile()
+    {
         header('Content-Description: File Transfer');
-        header('Content-Type: '.$objectcontenttype);
-        header('Content-disposition: attachment; filename='.$objectname);
-        header('Content-Length: '.$objectcontentlength);
+        header('Content-Type: '.$this->objectcontenttype);
+        header('Content-disposition: attachment; filename='.$this->objectname);
+        header('Content-Length: '.$this->objectcontentlength);
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Expires: 0');
         header('Pragma: public');
-        //echo $data;
 
-		return View::make('hello')->with('data', $data);
-	}
-
+        return View::make('downloadfile')->with('data', $this->data);
+    }
 }
