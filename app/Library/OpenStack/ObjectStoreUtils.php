@@ -37,10 +37,6 @@ class ObjectStoreUtils
         return $objectStore;
     }
 
-    function generateUniqueId() {
-        return uniqid();
-    }
-
     function createAndRetrieveContainer(ObjectStorage $objectStore = null){
         // Generate a unique container name
         $containerName = uniqid();
