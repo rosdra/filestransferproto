@@ -2,6 +2,8 @@
 
 use OpenStack\Identity\v2\IdentityService;
 use OpenStack\ObjectStore\v1\ObjectStorage;
+use OpenStack\ObjectStore\v1\Resource\Container;
+use OpenStack\ObjectStore\v1\Resource\Object;
 
 class ObjectStoreUtils
 {
@@ -48,5 +50,20 @@ class ObjectStoreUtils
         $container = $objectStore->container($containerName);
 
         return $container;
+    }
+
+    function uploadFile(Container $container, $filepath) {
+        $filename = basename($filepath);
+
+        // get contents of file
+        $filecontents = file_get_contents($filepath);
+
+        // get file mime type
+        $finfo = new finfo(FILEINFO_MIME);
+        $type = $finfo->file($filepath);
+
+        // Send file to save
+        $localObject = new Object($filename, $filecontents, $type);
+        $container->save($localObject);
     }
 }

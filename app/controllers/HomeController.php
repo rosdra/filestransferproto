@@ -22,23 +22,22 @@ class HomeController extends BaseController {
         // To get the file AND delete the container when the file is downloaded
         $container = $objectStoreUtils->createAndRetrieveContainer($objectStore);
 
-        // File path (retrieved from the uploader component. TO DO: handle multiple files
-        $demofilepath = "/home/rosdra/Documents/laravel_commands.txt";
-        $filename = basename($demofilepath);
+        // File path (retrieved from the uploader component). TO DO: retrieve their physical address
+        // NOTE: Filename has to be stored in database
+        $fileArray = Array(
+            0 => '/home/rosdra/Documents/laravel_commands.txt',
+            1 => '/home/rosdra/Documents/laravel_commands2.txt'
+        );
 
-        // get contents of file
-        $filecontents = file_get_contents($demofilepath);
-
-        // get file mime type
-        $finfo = new finfo(FILEINFO_MIME);
-        $type = $finfo->file($demofilepath);
-
-        // Send file to save
-        $localObject = new Object($filename, $filecontents, $type);
-        $container->save($localObject);
-
+        // For every file from uploader, we send it to upload
+        foreach($fileArray as $filepath){
+            $objectStoreUtils->uploadFile($container, $filepath);
+        }
 
         /****************************For download part************************************/
+        // Dummy filename, should retrieve info from database
+        $filename = 'laravel_commands.txt';
+
         // Get File from container
         $object = $container->object($filename);
 
@@ -75,5 +74,11 @@ class HomeController extends BaseController {
             'Pragma'                    => 'public',
             'Content-Length'            => Session::get('objectcontentlength')
         ));
+
+        /* TO DO Clean session variables
+        Session::forget('data');
+        Session::forget('objectcontenttype');
+        Session::forget('objectname');
+        Session::forget('objectcontentlength');*/
     }
 }
