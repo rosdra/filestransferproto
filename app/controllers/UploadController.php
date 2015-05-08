@@ -64,6 +64,8 @@ class UploadController extends BaseController {
 
             // Upload files to Swift
             $objectStoreUtils = Session::get('objectStoreUtils');
+
+            // NOTE: Store Container name in DB
             $containerName = Session::get('containerName');
 
             // Get object service
@@ -72,9 +74,6 @@ class UploadController extends BaseController {
             // Create and retrieve the container
             // To get the file AND delete the container when the file is downloaded
             $container = $objectStoreUtils->createAndOrRetrieveContainer($objectStore, $containerName);
-
-            // NOTE: Store Container name in DB
-            $containerName = $container->name();
 
             // Upload file to swift
             $success = $objectStoreUtils->uploadFile($container, $fileFullPath);
