@@ -7,6 +7,7 @@
 	{{ HTML::script('jquery/plugins/js/fileupload/jquery.fileupload-process.js') }}
 	{{ HTML::script('jquery/plugins/js/fileupload/jquery.fileupload-video.js') }}
 	{{ HTML::script('jquery/plugins/js/jstemplate/tmpl.min.js') }}
+	{{ HTML::script('jquery/plugins/js/alert.js') }}
 	{{ HTML::script('filestransfer/js/filestransfer.upload.js') }}
 @append
 

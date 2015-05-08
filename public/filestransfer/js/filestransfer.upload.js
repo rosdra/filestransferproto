@@ -83,7 +83,7 @@ function FIVE() {
             },
 
             progress: function (e, data) {
-                // var progress = parseInt(data.loaded / data.total * 100, 10);
+                //var progress = parseInt(data.loaded / data.total * 100, 10);
             },
 
             progressall: function (e, data) {
@@ -91,43 +91,50 @@ function FIVE() {
                 if (data.total) {
                     progress = parseInt(data.loaded / data.total * 100, 10);
                 }
-                showProgress(progress);
+
+                console.log('Progress:' + progress);
+                //showProgress(progress);
             },
 
             submit: function (e, data) {
-                if ($('#file-' + data.context).length != 0) { //dont send removed items
+                /*if ($('#file-' + data.context).length != 0) { //dont send removed items
                     var additionData = $('#file-' + data.context + ' form').serializeArray();
                     data.formData = additionData;
                     return true;
                 } else {
                     return false;
-                }
+                }*/
+                return true;
             },
             success: function (e, data) {
                 if (e == 'failed') {
                      alertify.alert(av_limit.text.upload_failed)
+                }else{
+                    console.log('upload was successful');
                 }
             },
 
             done: function (e, data) {
                 if (e == 'failed') {
-                     alertify.alert(av_limit.text.upload_failed)
+                    alertify.alert('upload Failed')
+                    console.log(data);
                 }
             },
 
             fail: function () {
-                 alertify.alert(av_limit.text.upload_failed);
+                alertify.alert('upload Failed')
+                console.log(data);
             },
 
             stop: function (e) {
-                redirectProgress('Finished.');
+                //redirectProgress('Finished.');
                 window.onbeforeunload = false;
-                window.setTimeout(function () {
+                /*window.setTimeout(function () {
                     redirectProgress(av_limit.text.upload_completed);
                 }, 1000);
 				window.setTimeout(function(){
 					window.location.href = av_limit.redirect_url;
-				}, 2000);
+				}, 2000);*/
             }
         });
         
