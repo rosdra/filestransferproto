@@ -64,6 +64,6 @@ class ObjectStoreUtils
 
         // Send file to save
         $localObject = new Object($filename, $filecontents, $type);
-        $container->save($localObject);
+        return $container->save($localObject);
     }
 }

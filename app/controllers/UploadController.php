@@ -69,9 +69,9 @@ class UploadController extends BaseController {
             $containerName = $container->name();
 
             // Upload file to swift
-            $objectStoreUtils->uploadFile($container, $fileFullPath);
+            $success = $objectStoreUtils->uploadFile($container, $fileFullPath);
 
-            //$object = $container->object($fileName);
+            $object = $container->object($fileName);
 
             //return \Response::json( array('success' => false, 'message' => 'File is not a video'));
 
