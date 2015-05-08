@@ -19,6 +19,18 @@ class UploadController extends BaseController {
 
     public function index()
     {
+        // Create a new identity service object, and tell it where to
+        // go to authenticate. This URL can be found in your console.
+        $identity = new IdentityService($_ENV['swiftendpoint']);
+
+        // Init Utils and authenticate
+        $objectStoreUtils = new ObjectStoreUtils($identity, $_ENV['swiftusername'], $_ENV['swiftpassword'], $_ENV['swifttenantname']);
+
+        Session::put('objectStoreUtils', $objectStoreUtils);
+
+        $containerName = uniqid();
+        Session::put('containerName', $containerName);
+
         return View::make('upload.index');
     }
 
@@ -51,19 +63,15 @@ class UploadController extends BaseController {
             $file->move($storeFolder, $fileName);
 
             // Upload files to Swift
-            // Create a new identity service object, and tell it where to
-            // go to authenticate. This URL can be found in your console.
-            $identity = new IdentityService($_ENV['swiftendpoint']);
-
-            // Init Utils and authenticate
-            $objectStoreUtils = new ObjectStoreUtils($identity, $_ENV['swiftusername'], $_ENV['swiftpassword'], $_ENV['swifttenantname']);
+            $objectStoreUtils = Session::get('objectStoreUtils');
+            $containerName = Session::get('containerName');
 
             // Get object service
             $objectStore = $objectStoreUtils->getObjectStore();
 
-            // Create and retrieve the container NOTE: has to be stored in Database
+            // Create and retrieve the container
             // To get the file AND delete the container when the file is downloaded
-            $container = $objectStoreUtils->createAndRetrieveContainer($objectStore);
+            $container = $objectStoreUtils->createAndOrRetrieveContainer($objectStore, $containerName);
 
             // NOTE: Store Container name in DB
             $containerName = $container->name();

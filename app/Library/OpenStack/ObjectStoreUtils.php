@@ -39,15 +39,18 @@ class ObjectStoreUtils
         return $objectStore;
     }
 
-    function createAndRetrieveContainer(ObjectStorage $objectStore = null){
-        // Generate a unique container name
-        $containerName = uniqid();
+    function createAndOrRetrieveContainer(ObjectStorage $objectStore = null, $containerName){
+        $container = '';
 
-        // Create the container for the file
-        $objectStore->createContainer($containerName);
-
-        // Retrieve the created container
-        $container = $objectStore->container($containerName);
+        // Retrieve the container (check if exists)
+        try {
+            $container = $objectStore->container($containerName);
+        } catch (Exception $ex) {
+            // Create the container for the file
+            $objectStore->createContainer($containerName);
+            // load the container
+            $container = $objectStore->container($containerName);
+        }
 
         return $container;
     }
