@@ -1,4 +1,6 @@
 <?php
+use OpenStack\Identity\v2\IdentityService;
+
 /**
  * Created by PhpStorm.
  * User: PHP_RAUL
@@ -43,26 +45,30 @@ class UploadController extends BaseController {
             $fileName = uniqid() . "." . $extension;
             $targetFile = $storeFolder . $fileName;
             $fileFullPath = public_path($targetFile);
-            /*$fileType = getFileType($tempFile);
-            if(isSupportedFile($extension)){
-                if($fileType == 2){
-                    if(!FileConverter::isHTML5Playable($tempFile)){
-                        // convert and save
-                        $fileName = FileConverter::ConvertToPlayable($tempFile, public_path($storeFolder), basename($fileName, "." . $extension));
-                        // take file name from converter
-                        $targetFile = $storeFolder . $fileName;
-                    }else{
-                        // handle image file
-                        $file->move($storeFolder, $fileName);
-                    }
-                }
-                else{
-                    return \Response::json( array('success' => false, 'message' => 'File is not a video'));
-                }
-            }
-            else{
-                return \Response::json( array('success' => false, 'message' => 'File type is not supported'));
-            }*/
+
+            $file->move($storeFolder, $fileName);
+
+            // Upload files to Swift
+            // Create a new identity service object, and tell it where to
+            // go to authenticate. This URL can be found in your console.
+            $identity = new IdentityService($_ENV['swiftendpoint']);
+
+            // Init Utils and authenticate
+            $objectStoreUtils = new ObjectStoreUtils($identity, $_ENV['swiftusername'], $_ENV['swiftpassword'], $_ENV['swifttenantname']);
+
+            // Get object service
+            $objectStore = $objectStoreUtils->getObjectStore();
+
+            // Create and retrieve the container NOTE: has to be stored in Database
+            // To get the file AND delete the container when the file is downloaded
+            $container = $objectStoreUtils->createAndRetrieveContainer($objectStore);
+
+            // Upload file to swift
+            $objectStoreUtils->uploadFile($container, $fileFullPath);
+
+            //$object = $container->object($fileName);
+
+            //return \Response::json( array('success' => false, 'message' => 'File is not a video'));
 
             // response
             $response = array('success'=> true, 'file_name' => $fileName);
