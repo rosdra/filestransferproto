@@ -83,7 +83,7 @@ class UploadController extends BaseController {
             //return \Response::json( array('success' => false, 'message' => 'File is not a video'));
 
             // response
-            $response = array('success'=> true, 'file_name' => $fileName);
+            $response = array('success'=> $success, 'file_name' => $fileName);
             return \Response::json($response);
         }
     }
