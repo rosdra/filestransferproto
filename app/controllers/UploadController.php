@@ -37,11 +37,13 @@ class UploadController extends BaseController {
             if ( ! $fileSize || ! $file->getMimeType())
                 return \Response::json(array('success'=> false));
 
-            $tempFile = $_FILES['files']['tmp_name'];
-            //$extension = preg_replace('/video\//', '', $file->getMimeType());
+            // NOTE: store file original Name in DB
+            $fileOriginalName = $file->getClientOriginalName();
+
             $extension = (explode(".", $_FILES['files']['name']));
             $extension = end($extension);
 
+            // NOTE: Store file temp name in DB
             $fileName = uniqid() . "." . $extension;
             $targetFile = $storeFolder . $fileName;
             $fileFullPath = public_path($targetFile);
@@ -62,6 +64,9 @@ class UploadController extends BaseController {
             // Create and retrieve the container NOTE: has to be stored in Database
             // To get the file AND delete the container when the file is downloaded
             $container = $objectStoreUtils->createAndRetrieveContainer($objectStore);
+
+            // NOTE: Store Container name in DB
+            $containerName = $container->name();
 
             // Upload file to swift
             $objectStoreUtils->uploadFile($container, $fileFullPath);
