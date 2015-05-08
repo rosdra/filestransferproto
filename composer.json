@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
         "openstack/openstack-sdk-php": "dev-master",
-        "way/generators": "~2.0"
+        "way/generators": "~2.0",
+		"barryvdh/laravel-ide-helper": "~1.11"
 	},
 	"autoload": {
 		"classmap": [
