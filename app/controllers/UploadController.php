@@ -21,7 +21,7 @@ class UploadController extends BaseController {
     {
         // Create a new identity service object, and tell it where to
         // go to authenticate. This URL can be found in your console.
-        $identity = new IdentityService($_ENV['swiftendpoint']);
+        /*$identity = new IdentityService($_ENV['swiftendpoint']);
 
         // Init Utils and authenticate
         $objectStoreUtils = new ObjectStoreUtils($identity, $_ENV['swiftusername'], $_ENV['swiftpassword'], $_ENV['swifttenantname']);
@@ -29,7 +29,7 @@ class UploadController extends BaseController {
         Session::put('objectStoreUtils', $objectStoreUtils);
 
         $containerName = uniqid();
-        Session::put('containerName', $containerName);
+        Session::put('containerName', $containerName);*/
 
         return View::make('upload.index');
     }
@@ -60,7 +60,7 @@ class UploadController extends BaseController {
             $targetFile = $storeFolder . $fileName;
             $fileFullPath = public_path($targetFile);
 
-            $file->move($storeFolder, $fileName);
+            /*$file->move($storeFolder, $fileName);
 
             // Upload files to Swift
             $objectStoreUtils = Session::get('objectStoreUtils');
@@ -76,11 +76,9 @@ class UploadController extends BaseController {
             $container = $objectStoreUtils->createAndOrRetrieveContainer($objectStore, $containerName);
 
             // Upload file to swift
-            $success = $objectStoreUtils->uploadFile($container, $fileFullPath);
-
+            $success = $objectStoreUtils->uploadFile($container, $fileFullPath);*/
+            $success = true;
             //$object = $container->object($fileName);
-
-            //return \Response::json( array('success' => false, 'message' => 'File is not a video'));
 
             // response
             $response = array('success'=> $success, 'file_name' => $fileName);

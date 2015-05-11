@@ -1,9 +1,5 @@
 $(function () {
     "user strict";
-    $('.browse_files').on('click', function () {
-        $('#input-browse').focus().click();
-        return false;
-    });
 
     var $dropzone = $('#dropzone');
     $dropzone.addClass("dropzone");
@@ -11,29 +7,29 @@ $(function () {
     var dropZoneBoxHtml = tmpl("tmpl-ext-dropzone", {});
     $dropzone.append(dropZoneBoxHtml);
 
-    $link = $dropzone.find('a');
+    /*$link = $dropzone.find('a');
     $link.on('click', function () {
         $('#input-browse').focus().click();
         return false;
-    });
+    });*/
 
-    $('.btn-upload').show();
+    //$('.btn-upload').attr('disabled', 'disabled');
 
     window.onbeforeunload = false;
     $(document).bind('drop dragover', function (e) {
         e.preventDefault();
     });
 
-    var uploader = FIVE();
+    var uploader = Upload_Handler();
     uploader.init();
 })
 
-function FIVE() {
+function Upload_Handler() {
     var destinationAfterUpload = '';
     var filesToUpload = [];
 
     var init = function () {
-        var jqXHR, uploadIndex = 0;
+        var jqXHR, uploadIndex = 0, currentStep = 1;
 
         $('#fileupload').fileupload({
             progressInterval: 50,
@@ -58,7 +54,14 @@ function FIVE() {
                     if ($lstItems.length == 0) {
                         is1stFile = true;
                         uploadIndex = 1;
+                        currentStep = 1;
+                        $('.btn-upload').attr('disabled', 'disabled');
                     }
+                    else{
+                        $('.btn-upload').removeAttr('disabled');
+                    }
+
+                    setupDropZone(currentStep);
 
                     // Extract EXIF data
                     var tdata = $.extend({}, {title: file.name, count: uploadIndex, active: is1stFile});
@@ -67,8 +70,7 @@ function FIVE() {
                     var itemHtml = tmpl("tmpl-upload-item", {
                         index: uploadIndex,
                         filename: file.name,
-                        filesize: file.size / 1000000,
-                        filesizeunit: 'MB'
+                        filesize_readable: getReadableFileSizeString(file.size)
                     });
                     $lstItems.append(itemHtml);
 
@@ -91,13 +93,12 @@ function FIVE() {
                 if (data.total) {
                     progress = parseInt(data.loaded / data.total * 100, 10);
                 }
-
+                showProgress(progress, data.loaded, data.total);
                 console.log('Progress:' + progress);
-                //showProgress(progress);
             },
 
             submit: function (e, data) {
-                /*if ($('#file-' + data.context).length != 0) { //dont send removed items
+               /* if($('#file-' + data.context).length != 0) { //dont send removed items
                     var additionData = $('#file-' + data.context + ' form').serializeArray();
                     data.formData = additionData;
                     return true;
@@ -108,15 +109,16 @@ function FIVE() {
             },
             success: function (e, data) {
                 if (e == 'failed') {
-                     alertify.alert(av_limit.text.upload_failed)
+                     alertify.alert('upload failed')
                 }else{
-                    console.log('upload was successful');
-                }
+                    console.log('data: ' + data);
+                    console.log('e: ' + e);
+                    console.log('upload was successful');                }
             },
 
             done: function (e, data) {
                 if (e == 'failed') {
-                    alertify.alert('upload Failed')
+                    alertify.alert('upload failed')
                     console.log(data);
                 }
             },
@@ -127,7 +129,7 @@ function FIVE() {
             },
 
             stop: function (e) {
-                //redirectProgress('Finished.');
+                redirectProgress('Finished.');
                 window.onbeforeunload = false;
                 /*window.setTimeout(function () {
                     redirectProgress(av_limit.text.upload_completed);
@@ -135,8 +137,24 @@ function FIVE() {
 				window.setTimeout(function(){
 					window.location.href = av_limit.redirect_url;
 				}, 2000);*/
+
+                currentStep = 3;
+                window.setTimeout(function(){
+                    setupDropZone(currentStep);
+                }, 2000);
+
+                hideProgress();
             }
         });
+
+        // check if dropzone exist
+        if($('#dropzone').lenght > 0){
+            $('#fileupload').fileupload(
+                'option',
+                'dropZone',
+                $('#dropzone')
+            );
+        }
         
         // + Add more
         $(document).on('click', '.btn-add', function (e) {
@@ -147,16 +165,15 @@ function FIVE() {
         /*-- Binding events --*/
         //Cancel (remove) a photo
         $(document).on('click', '.btn-remove', function (e) {
-            var r = confirm('Are you sure to remove this photo');
+            var r = confirm('Are you sure to remove this file');
             if (r == true) {
-                // remove photo thumbnail + editor
+                // remove file item
                 $('.edit-zone.active').remove();
                 if ($('.thumbnails-holder .active').prev().length) {
                     $('.thumbnails-holder .active').prev().find('a').trigger('click').end().end().remove();
                 } else {
                     $('.thumbnails-holder .active').next().find('a').trigger('click').end().end().remove();
                 }
-                updateUploadEditor();
 
                 // If no photo remains, reset start-zone
                 if ($('.upload-thumbnail').length == 0) {
@@ -169,31 +186,17 @@ function FIVE() {
         });
 
         $('.btn-upload').on('click', function (e) {
+            currentStep = 2;
+
             $('.btn-upload').off('click').css({opacity: 0.5, cursor: 'wait'});
             $('html, body').animate({scrollTop: 0}, 1000);
-
-            $('.upload-thumbnail').parent().removeClass('active');
-            // $('.edit-zone').removeClass('active');
-            $('.map').addClass('disabled');
-            $('.edit-zone input, .edit-zone textarea, .edit-zone select').attr('readonly', 'true');
 
             for (i in filesToUpload) {
                 filesToUpload[i].submit();
             }
+
+            setupDropZone(currentStep);
         });
-
-        $(document).on('click', '#myTab a', function (e) {
-            e.preventDefault();
-            if (!$(this).closest('li').hasClass('active')) {
-                $(this).tab('show');
-                tabSelect($(this));
-            }
-        })
-    }
-
-    var tabSelect = function (_this) {
-        $('.preview-zone img').attr('src', _this.find('img').attr('src'));
-        initFormHelper();
     };
 
     var confirmClosePage = function () {
@@ -205,17 +208,67 @@ function FIVE() {
         }
     };
 
-    var updateUploadEditor = function () {
+    var setupDropZone = function (step) {
+        var oldStepHolder = $('#dropzone').find(".step-active");
+        oldStepHolder.hide();
+        oldStepHolder.removeClass("step-active");
 
+        var newStepHolder = $('#dropzone').find('#step-'+step);
+        newStepHolder.show();
+        newStepHolder.addClass("step-active");
+
+        if(step == 1) {
+            if ($('.items-holder').length == 0) {
+                newStepHolder.find('div.plus-icon').show();
+                newStepHolder.find('h3').html('Drag & Drop your files');
+                newStepHolder.find('.btn-add').html('Select files');
+            }
+            else {
+                newStepHolder.find('h3').html('Drag & Drop more files');
+                newStepHolder.find('div.plus-icon').hide();
+                newStepHolder.find('.btn-add').html('Add more files');
+            }
+        }else if(step == 3){
+            var items = newStepHolder.find('.items-holder');
+            items.find('.item-state').show();
+        }
     };
 
     var initFormHelper = function () {
+    };
+
+    var showProgress = function (rate, loaded, total) {
+        var $p = $('.progress-holder');
+        if (!$p.is(':visible')) $p.show();
+        $p.find('.progress-label').text(getReadableFileSizeString(loaded) + ' of ' + getReadableFileSizeString(total) + ' completed');
+        $p.find('.progress-bar').css('width', rate + '%');
+        $p.find('.progress-rate').text(rate + '%');
+    };
+
+    var hideProgress = function () {
+        $('.progress-holder').hide();
+    };
+
+    var redirectProgress = function (text) {
+        var $p = $('.progress-holder');
+        $p.find('.progress-rate').text(text);
     };
 
     var clearClientStorage = function () {
         if (window.localStorage) {
             localStorage.clear();
         }
+    };
+
+    var getReadableFileSizeString = function(fileSizeInBytes) {
+        var i = -1;
+        var byteUnits = [' KB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+        do {
+            fileSizeInBytes = fileSizeInBytes / 1024;
+            i++;
+        } while (fileSizeInBytes > 1024);
+
+        return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
     };
 
     return {init: init};
