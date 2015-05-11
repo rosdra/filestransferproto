@@ -84,3 +84,6 @@
         </h6>
 	</a>
 </script>
+<script>
+    var url_initial = '{{ url("/upload") }}';
+</script>

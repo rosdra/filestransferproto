@@ -26,6 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(function(){
     if(str_is('ubuntu',gethostname())) return 'develop';
+    if(str_is('WIN-PFHRVNGTMC8',gethostname())) return 'develop';
 
     return array_get($_SERVER, 'LARAVEL_ENV', false) ?: 'production';
 });

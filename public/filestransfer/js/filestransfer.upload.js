@@ -197,6 +197,12 @@ function Upload_Handler() {
 
             setupDropZone(currentStep);
         });
+
+        $('.btn-cancel').on('click', function (e) {
+            window.setTimeout(function(){
+                window.location.href = url_initial;
+            }, 0);
+        });
     };
 
     var confirmClosePage = function () {
