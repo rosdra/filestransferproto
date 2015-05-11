@@ -13,7 +13,7 @@ class EloquentTransferRepository implements ITransferRepository
 
     public function find($id)
     {
-        $transfer = Transfer::find($id)->with("files");
+        $transfer = Transfer::find($id);
         return $transfer;
     }
 
@@ -44,9 +44,30 @@ class EloquentTransferRepository implements ITransferRepository
                 $file->slug = $f["slug"];
                 $file->transfer_id = $u->id;
 
-                $arrayFilesToSave[] = $file;
+                $file->save();
+                //$arrayFilesToSave[] = $file;
             }
-            $u->files()->saveMany($arrayFilesToSave);
+            //$u->files()->saveMany($arrayFilesToSave);
+        }
+
+        \Session::set('transfer_id',$u->id);
+
+        return $u;
+    }
+
+    public function addNewFile($id,$f){
+        $u = $this->find($id);
+
+        if($f != null) {
+            $file = new TransferFile;
+            $file->original_name = $f["original_name"];
+            $file->object_name = $f["object_name"];
+            $file->size = $f["size"];
+            $file->mimetype = $f["mimetype"];
+            $file->slug = $f["slug"];
+            $file->transfer_id = $u->id;
+
+            $file->save();
         }
 
         return $u;

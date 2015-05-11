@@ -1,4 +1,4 @@
-<?php namespace Base\Lib\Storage\Transfers;
+<?php namespace app\Lib\Storage\Transfers;
  
 interface ITransferRepository
 {
@@ -8,6 +8,8 @@ interface ITransferRepository
     public function find($id);
 
     public function create($input);
+
+    public function addNewFile($id,$input);
 
     public function update($id, $input);
 

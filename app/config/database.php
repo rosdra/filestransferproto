@@ -56,7 +56,7 @@ return array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
 			'database'  => 'filestransferproto',
-			'username'  => 'root',
+			'username'  => 'filestransfer_u',
 			'password'  => 'root1243',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
