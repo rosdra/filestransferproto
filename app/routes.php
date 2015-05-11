@@ -16,3 +16,6 @@ Route::get('downloadfile', 'HomeController@downloadfile');
 Route::get('/upload', 'UploadController@index');
 Route::post('uploadfiles', ['as' => 'files.upload', 'uses' => 'UploadController@upload'])->before('ban');
 
+//Just a test
+Route::get('/download/{id}', 'UploadController@download');
+

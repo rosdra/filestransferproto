@@ -16,6 +16,6 @@ class Transfer extends \Eloquent {
 
 
     public function files(){
-        $this->hasMany('app\models\Transfers\TransferFile', "transfer_id");
+        return $this->hasMany('app\models\Transfers\TransferFile', "transfer_id");
     }
 }
