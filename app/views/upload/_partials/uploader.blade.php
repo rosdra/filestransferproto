@@ -85,5 +85,5 @@
 	</a>
 </script>
 <script>
-    var url_initial = '{{ url("/upload") }}';
+    var url_initial = '{{ url("/") }}';
 </script>
