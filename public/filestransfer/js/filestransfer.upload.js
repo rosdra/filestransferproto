@@ -141,7 +141,7 @@ function Upload_Handler() {
                 currentStep = 3;
                 window.setTimeout(function(){
                     setupDropZone(currentStep);
-                }, 2000);
+                }, 1000);
 
                 hideProgress();
             }
@@ -228,6 +228,9 @@ function Upload_Handler() {
                 newStepHolder.find('div.plus-icon').hide();
                 newStepHolder.find('.btn-add').html('Add more files');
             }
+        }else if(step == 2){
+            $('.btn-upload').hide();
+            $('.btn-cancel').show();
         }else if(step == 3){
             var items = newStepHolder.find('.items-holder');
             items.find('.item-state').show();

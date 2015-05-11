@@ -204,6 +204,7 @@ textarea[name="photo[description]"] {
 	display: inline-block;
     position: relative;
     min-height: 300px;
+    height: 400px;
     width: 100%;
 }
 .dropzone .addmore > a{
@@ -229,7 +230,6 @@ textarea[name="photo[description]"] {
     text-align: center;
     vertical-align: middle;
 }
-
 .dropzone .addmore .box .plus-icon {
 	background-image: url("../img/add_more.png");
     background-position: center center;
@@ -238,4 +238,9 @@ textarea[name="photo[description]"] {
     height: 48px;
     margin-bottom: 12px;
     width: 100%;
+}
+.dropzone .addmore .box .items-holder{
+    text-align: left;
+    max-height: 180px;
+    overflow: auto;
 }

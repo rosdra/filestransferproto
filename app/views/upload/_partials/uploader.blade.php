@@ -21,7 +21,7 @@
 	<div class="addmore">
         <div class="box">
             <div id="step-1" class="step-active">
-                <div class="col-xs-12" style="color:light-gray">
+                <div class="panel-body col-xs-12">
                     <!-- File List -->
                     <div class="list-group items-holder" ></div>
                 </div>
@@ -56,13 +56,13 @@
                 </div>
             </div>
             <div id="step-3" style="display:none">
-                <div class="col-xs-12">
+                <div class="panel-body col-xs-12">
                     <!-- Uploaded File List -->
                     <div class="list-group items-holder" ></div>
                 </div>
                 <div class="col-xs-12">
-                    <a role="button" class="btn btn-default btn-download">
-                     <span class="fa fa-link">Get the download link</span>
+                    <a role="button" class="btn btn-default btn-download" style="display:none">
+                     <span class="fa fa-link"> Get the download link</span>
                     </a>
                     <div class="text-center">
                         <h3>FILES UPLOADED</h3>
@@ -81,15 +81,6 @@
             <span class="has-success pull-right item-state" style="display:none">
                 <i class="glyphicon glyphicon-ok"></i>
             </span>
-        </h6>
-	</a>
-</script>
-
-<script type="text/x-tmpl" id="tmpl-uploaded-item">
-	<a class="list-group-item" href="#file-{%=o.index %}" class="item_{%=o.index %}">
-        <h6>
-            {%= o.filename %}
-            <span class="badge">{%= o.filesize %} {%= o.filesizeunit %} <i class="pull-right fa fa-check"></i></span>
         </h6>
 	</a>
 </script>
