@@ -17,6 +17,12 @@ class EloquentTransferRepository implements ITransferRepository
         return $transfer;
     }
 
+    public function findByUniqueId($unique_id)
+    {
+        $transfer = Transfer::where("unique_id, ",$unique_id)->first();
+        return $transfer;
+    }
+
     /*
      * creates a new transfer object, it receive an array with container information and all files uploaded
      *
@@ -26,7 +32,7 @@ class EloquentTransferRepository implements ITransferRepository
         $u = new Transfer;
 
         $u->container_name = $input["container_name"];
-
+        $u->unique_id = uniqid("",true);
         if(\Auth::check()) {
             $u->user_id = \Auth::user()->id;
         }

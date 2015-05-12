@@ -12,7 +12,7 @@ class Transfer extends \Eloquent {
     protected $guarded = [
         "id", "created_at","updated_at"
     ];
-    protected $fillable = ['container_name' ,'user_id'];
+    protected $fillable = ['container_name' ,'user_id','unique_id'];
 
 
     public function files(){

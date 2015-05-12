@@ -6,6 +6,7 @@ interface ITransferRepository
     public function all();
 
     public function find($id);
+    public function findByUniqueId($unique_id);
 
     public function create($input);
 

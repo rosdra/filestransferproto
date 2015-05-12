@@ -18,7 +18,8 @@ Route::group(array('before' => 'ajax|ajaxban'), function () {
   Route::post('uploadfiles', ['as' => 'files.upload', 'uses' => 'UploadController@upload'])->before('ban');
 });
 //Just a test
-Route::get('/download/{id}', 'UploadController@download');
+Route::get('/download/{id}/{pid?}', 'DownloadController@download');
+Route::get('/progress/{pid}', 'DownloadController@progress');
 
 Route::get('/curltest', function() {
     $ch = curl_init("http://google.com");

@@ -17,6 +17,7 @@ class CreateTransfersTable extends Migration {
 			$table->increments('id');
             $table->integer("user_id")->nullable();
             $table->string("container_name");
+            $table->string("unique_id");
 			$table->timestamps();
             $table->softDeletes();
 		});
