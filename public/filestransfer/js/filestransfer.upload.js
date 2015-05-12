@@ -148,7 +148,7 @@ function Upload_Handler() {
         });
 
         // check if dropzone exist
-        if($('#dropzone').lenght > 0){
+        if($('#dropzone').length > 0){
             $('#fileupload').fileupload(
                 'option',
                 'dropZone',
