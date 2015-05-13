@@ -1,0 +1,1 @@
+/var/www/filestransferproto/app/views/emails/senderConfirmation.blade.php
