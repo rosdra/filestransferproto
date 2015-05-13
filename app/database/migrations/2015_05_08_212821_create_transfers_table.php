@@ -18,6 +18,9 @@ class CreateTransfersTable extends Migration {
             $table->integer("user_id")->nullable();
             $table->string("container_name");
             $table->string("unique_id");
+            $table->string("sender_email");
+            $table->string("recipient_email");
+            $table->string("message");
 			$table->timestamps();
             $table->softDeletes();
 		});
