@@ -41,6 +41,7 @@ class ObjectStoreUtils
         return $objectStore;
     }
 
+    //<editor-fold desc="Public Methods">
     function createAndOrRetrieveContainer(ObjectStorage $objectStore = null, $containerName){
         $container = '';
 
@@ -72,7 +73,69 @@ class ObjectStoreUtils
         return $container->save($localObject);
     }
 
-    public function downloadObjectsByTransfer($objectStore, $transfer)
+    function uploadFileChunks(Container $container, ObjectStorage $objectStore, $filepath) {
+
+        $filename = basename($filepath);
+
+        // get file mime type
+        $finfo = new finfo(FILEINFO_MIME);
+        $type = $finfo->file($filepath);
+        $token = $objectStore->token();
+        $url = $container->url() . "/" . $filename;
+        $manifestUrl = $container->name() . "/" . $filename."/";
+
+        $data = '';
+        $i=0;
+        $res=false;
+        // get contents of file
+        $filecontents = fopen($filepath, 'rb');
+        // Send file to save by chunks
+        while(!feof($filecontents)) {
+            $data = fread($filecontents, 1024*500);
+            $i = $i + 1;
+            $urli = $url . "/".$i;
+            $ch = curl_init($urli);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-Auth-Token: ' . $token));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_exec($ch);
+            $info = curl_getinfo($ch);
+            curl_close($ch);
+            if($info['http_code'] != "201" || $info['http_code'] != 201){
+                $res = false;
+                break;
+            }
+            else{
+                $res = true;
+            }
+        }
+
+        if($res == true) {
+            $chm = curl_init($url);
+            curl_setopt($chm, CURLOPT_CUSTOMREQUEST, "PUT");
+            //curl_setopt($chm, CURLOPT_PUT, true);
+            curl_setopt($chm, CURLOPT_HTTPHEADER, array('X-Auth-Token: ' . $token, 'X-Object-Manifest: ' . $manifestUrl));
+            curl_setopt($chm, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($chm, CURLOPT_CONNECTTIMEOUT, 0);
+            curl_setopt($chm, CURLOPT_POSTFIELDS, "");
+            curl_exec($chm);
+            $info = curl_getinfo($chm);
+            curl_close($chm);
+            if($info['http_code'] != "201" || $info['http_code'] != 201){
+                $res = false;
+            }
+            else{
+                $res = true;
+            }
+        }
+
+        return $res;
+    }
+
+    function downloadObjectsByAPI($objectStore, $transfer)
     {
         $container = $this->createAndOrRetrieveContainer($objectStore,$transfer->container_name);
 
@@ -87,7 +150,65 @@ class ObjectStoreUtils
         return $objects;
     }
 
-    public function downloadByCurl($destinationPath, $progressFileName, $transfer)
+
+    function download_transfer_files_as_zip($transfer,$destinationPath, $progressFileName, $overwrite = true) {
+        $valid_files = $this->downloadByCurl($destinationPath,$progressFileName,$transfer);
+
+        $destination = uniqid("filetransfer_",true).".zip";
+        $destination = $destinationPath . $destination;
+        $destination = public_path($destination);
+
+        //if the zip file already exists and overwrite is false, return false
+        if(file_exists($destination) && !$overwrite) { return false; }
+
+        //if we have good files...
+        if(count($valid_files)) {
+            //create the archive
+            $zip = new ZipArchive();
+            if($zip->open($destination,$overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
+                return false;
+            }
+            //add the files
+            foreach($valid_files as $file) {
+                $zip->addFile($file["fileTemp"], $file["original_name"]);
+            }
+
+            //close the zip finish!
+            $zip->close();
+
+            //delete temp files
+            foreach($valid_files as $file) {
+                unlink($file["fileTemp"]);
+            }
+
+            $array = ["finished" => true , "zip" => $destination];
+            $fp = fopen($progressFileName, 'w');
+            fwrite($fp, json_encode($array));
+            fclose($fp);
+
+            //check to make sure the file exists
+            return $destination;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    //</editor-fold>
+
+
+
+    // <editor-fold defaultstate="collapsed" desc="Protected Methods">
+
+    /**
+     * Function
+     *
+     * @param string $destinationPath temporal destination path in the server
+     * @param string $progressFileName full path to the progress file name
+     * @param TransferFile $transfer object transfer
+     * @return array with valid files
+     * */
+    protected function downloadByCurl($destinationPath, $progressFileName, $transfer)
     {
         // Get object service
         $objectStore = $this->getObjectStore();
@@ -133,74 +254,58 @@ class ObjectStoreUtils
         return $valid_files;
     }
 
-    function uploadFileChunks(Container $container, $filepath) {
-
-        $curl = new anlutro\cURL\cURL;
-
-
-
-        $filename = basename($filepath);
-
-        // get contents of file
-        $filecontents = file_get_contents($filepath);
-
-        // get file mime type
-        $finfo = new finfo(FILEINFO_MIME);
-        $type = $finfo->file($filepath);
-
-        // Send file to save
-        $localObject = new Object($filename, $filecontents, $type);
-        return $container->save($localObject);
-    }
-
-
-    function download_transfer_files_as_zip($transfer,$destinationPath, $progressFileName, $overwrite = true) {
-        // Get object service
-        $objectStore = $this->getObjectStore();
-
-        $valid_files = $this->downloadByCurl($destinationPath,$progressFileName,$transfer);
-
-        $destination = uniqid("filetransfer_",true).".zip";
-        $destination = $destinationPath . $destination;
-        $destination = public_path($destination);
-
-        //if the zip file already exists and overwrite is false, return false
-        if(file_exists($destination) && !$overwrite) { return false; }
-
-        //if we have good files...
-        if(count($valid_files)) {
-            //create the archive
-            $zip = new ZipArchive();
-            if($zip->open($destination,$overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
-                return false;
-            }
-            //add the files
-            foreach($valid_files as $file) {
-                $zip->addFile($file["fileTemp"], $file["original_name"]);
-            }
-
-            //close the zip finish!
-            $zip->close();
-
-            //delete temp files
-            foreach($valid_files as $file) {
-                unlink($file["fileTemp"]);
-            }
-
-            $array = ["finished" => true , "zip" => $destination];
-            $fp = fopen($progressFileName, 'w');
-            fwrite($fp, json_encode($array));
-            fclose($fp);
-
-            //check to make sure the file exists
-            return $destination;
+    protected function progressCallback($resource, $download_size, $downloaded_size,$me,$progressFileName)
+    {
+        static $previousProgress = 0;
+        static $previousDownloaded = 0;
+        if($download_size == 0 && $downloaded_size == 0){
+            $previousDownloaded = 0;
+            $previousProgress = 0;
         }
+
+        if ( $download_size == 0 )
+            $progress = 0;
         else
+            $progress = round( $downloaded_size * 100 / $download_size );
+
+        if ( $progress > $previousProgress)
         {
-            return false;
+            if($previousDownloaded == 0 && $download_size != $downloaded_size){
+                $bytesDownloaded = $previousDownloaded = $downloaded_size;
+            }
+            else{
+                $bytesDownloaded =  $downloaded_size - $previousDownloaded;
+                $previousDownloaded = $downloaded_size;
+            }
+            $me->total_files_downloaded = $me->total_files_downloaded + $bytesDownloaded;
+            $previousProgress = $progress;
+
+            if ( $me->total_files_size == 0 )
+                $total_progress = 0;
+            else
+                $total_progress = round( $me->total_files_downloaded * 100 / $me->total_files_size );
+
+            $array = ["progress" => $total_progress , "finished" => false];
+            $fp = fopen( $progressFileName, 'w' );
+            fwrite( $fp, json_encode($array));
+            fclose( $fp );
         }
     }
 
+    protected function getTotalFileSize($transfer){
+        $total = 0;
+        foreach($transfer->files()->get() as $f){
+            $total = $total + $f->size;
+        }
+
+        return $total;
+    }
+
+    // </editor-fold>
+
+
+
+    //<editor-fold desc="Others">
 
     function create_zip($files = array(), $destination = '', $overwrite = false) {
         //if the zip file already exists and overwrite is false, return false
@@ -244,52 +349,5 @@ class ObjectStoreUtils
         }
     }
 
-
-    function progressCallback($resource, $download_size, $downloaded_size,$me,$progressFileName)
-    {
-        static $previousProgress = 0;
-        static $previousDownloaded = 0;
-        if($download_size == 0 && $downloaded_size == 0){
-            $previousDownloaded = 0;
-            $previousProgress = 0;
-        }
-
-        if ( $download_size == 0 )
-            $progress = 0;
-        else
-            $progress = round( $downloaded_size * 100 / $download_size );
-
-        if ( $progress > $previousProgress)
-        {
-            if($previousDownloaded == 0 && $download_size != $downloaded_size){
-                $bytesDownloaded = $previousDownloaded = $downloaded_size;
-            }
-            else{
-                $bytesDownloaded =  $downloaded_size - $previousDownloaded;
-                $previousDownloaded = $downloaded_size;
-            }
-            $me->total_files_downloaded = $me->total_files_downloaded + $bytesDownloaded;
-            $previousProgress = $progress;
-
-            if ( $me->total_files_size == 0 )
-                $total_progress = 0;
-            else
-                $total_progress = round( $me->total_files_downloaded * 100 / $me->total_files_size );
-
-            $array = ["progress" => $total_progress , "finished" => false];
-            $fp = fopen( $progressFileName, 'w' );
-            fwrite( $fp, json_encode($array));
-            fclose( $fp );
-        }
-    }
-
-
-    function getTotalFileSize($transfer){
-        $total = 0;
-        foreach($transfer->files()->get() as $f){
-            $total = $total + $f->size;
-        }
-
-        return $total;
-    }
+    //</editor-fold>
 }

@@ -87,44 +87,47 @@ class UploadController extends BaseController {
             $container = $objectStoreUtils->createAndOrRetrieveContainer($objectStore, $containerName);
 
             // Upload file to swift
-            $success = $objectStoreUtils->uploadFile($container, $fileFullPath);
-            $success = true;
-            //$object = $container->object($fileName);
+            //$success = $objectStoreUtils->uploadFile($container, $fileFullPath);
+            $success = $objectStoreUtils->uploadFileChunks($container,$objectStore, $fileFullPath);
 
-            $slug = Str::slug($fileOriginalName);
-            if(!$slug){
-                $slug = str_random(9);
-            }
+            if($success == true) {
+                $slug = Str::slug($fileOriginalName);
+                if (!$slug) {
+                    $slug = str_random(9);
+                }
 
-            //Save/Update container and file information into Database
-            if($transfer_id == null) {
-                $data = [
-                    'container_name' => $containerName,
-                    'files' => [
-                        [
-                            'original_name' => $fileOriginalName,
-                            'object_name' => $fileName,
-                            'size' => $fileSize,
-                            'mimetype' => $fileMymeType,
-                            'slug' => $slug
+                //Save/Update container and file information into Database
+                if ($transfer_id == null) {
+                    $data = [
+                        'container_name' => $containerName,
+                        'files' => [
+                            [
+                                'original_name' => $fileOriginalName,
+                                'object_name' => $fileName,
+                                'size' => $fileSize,
+                                'mimetype' => $fileMymeType,
+                                'slug' => $slug
+                            ]
                         ]
-                    ]
-                ];
-                $this->transfer->create($data);
-            }
-            else {
-                $data = [
-                    'original_name' => $fileOriginalName,
-                    'object_name' => $fileName,
-                    'size' => $fileSize,
-                    'mimetype' => $fileMymeType,
-                    'slug' => $slug
-                ];
-                $this->transfer->addNewFile($transfer_id, $data);
-            }
+                    ];
+                    $this->transfer->create($data);
+                } else {
+                    $data = [
+                        'original_name' => $fileOriginalName,
+                        'object_name' => $fileName,
+                        'size' => $fileSize,
+                        'mimetype' => $fileMymeType,
+                        'slug' => $slug
+                    ];
+                    $this->transfer->addNewFile($transfer_id, $data);
+                }
 
-            // response
-            $response = array('success'=> $success, 'file_name' => $fileName);
+                // response
+                $response = array('success' => $success, 'file_name' => $fileName);
+            }
+            else{
+                $response = array('success' => $success);
+            }
             return \Response::json($response);
         }
     }

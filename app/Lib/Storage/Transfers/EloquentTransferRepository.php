@@ -19,7 +19,7 @@ class EloquentTransferRepository implements ITransferRepository
 
     public function findByUniqueId($unique_id)
     {
-        $transfer = Transfer::where("unique_id, ",$unique_id)->first();
+        $transfer = Transfer::where("unique_id",$unique_id)->first();
         return $transfer;
     }
 
