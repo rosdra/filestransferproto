@@ -15,5 +15,4 @@ interface ITransferRepository
     public function update($id, $input);
 
     public function delete($id);
-
 }
