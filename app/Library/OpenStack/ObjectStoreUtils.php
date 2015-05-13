@@ -285,7 +285,12 @@ class ObjectStoreUtils
             else
                 $total_progress = round( $me->total_files_downloaded * 100 / $me->total_files_size );
 
-            $array = ["progress" => $total_progress , "finished" => false];
+            $array = [
+                "progress" => $total_progress ,
+                "downloaded" => $me->total_files_downloaded ,
+                "total" => $me->total_files_size ,
+                "finished" => false
+            ];
             $fp = fopen( $progressFileName, 'w' );
             fwrite( $fp, json_encode($array));
             fclose( $fp );
