@@ -46,6 +46,44 @@ class DownloadController extends BaseController {
 
         $zip =  $objectStoreUtils->download_transfer_files_as_zip($transfer,static::$STORE_FOLDER,$progressFileName);
 
+        // Download Email
+        $fileExpirationDays = $_ENV["fileexpirationdays"];
+        $srtToAddDays = " + " . $fileExpirationDays . " day";
+        $expirationDate = date('j M, Y', strtotime($transfer->created_at . $srtToAddDays));
+
+        $transferFiles = $transfer->files;
+
+        $totalSize = 0;
+        $fileNames = "";
+        foreach($transferFiles as $transferFile) {
+            $totalSize += $transferFile->size;
+            $fileNames .= $transferFile->original_name . "<br>";
+        }
+
+        $totalSize = $totalSize / 1024;
+        $totalSize = round($totalSize, 2);
+
+        $senderEmail = $transfer->sender_email;
+        $recipientEmail = $transfer->recipient_email; // TODO parse multiple emails from input
+
+        $transferMessage = $transfer->message;
+
+        $downloadURL = $_SERVER['SERVER_NAME'] . "/download/" . $id . "/" . $transfer->unique_id;
+
+        $data = [
+            'expirationDate'  => $expirationDate,
+            'totalSize'       => $totalSize,
+            'fileNames'       => $fileNames,
+            'senderEmail'     => $senderEmail,
+            'recipientEmail'  => $recipientEmail,
+            'transferMessage' => $transferMessage,
+            'downloadURL'     => $downloadURL,
+        ];
+
+        Mail::send('emails.downloadConfirmation', $data, function($message) use ($recipientEmail, $senderEmail) {
+            $message->to($senderEmail, $senderEmail)->subject("Download confirmation from " . $recipientEmail);
+        });
+
         $this->sendFile($zip);
     }
 

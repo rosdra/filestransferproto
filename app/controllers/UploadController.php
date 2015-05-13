@@ -128,4 +128,56 @@ class UploadController extends BaseController {
             return \Response::json($response);
         }
     }
+
+    public function transferemail($transferid) {
+        $transferData = $this->transfer->find($transferid);
+        $fileExpirationDays = $_ENV["fileexpirationdays"];
+        $srtToAddDays = " + " . $fileExpirationDays . " day";
+        $expirationDate = date('j M, Y', strtotime($transferData->created_at . $srtToAddDays));
+
+        $transferFiles = $transferData->files;
+
+        $totalSize = 0;
+        $fileNames = "";
+        foreach($transferFiles as $transferFile) {
+            $totalSize += $transferFile->size;
+            $fileNames .= $transferFile->original_name . "<br>";
+        }
+
+        $totalSize = $totalSize / 1024;
+        $totalSize = round($totalSize, 2);
+
+        $senderEmail = "rosdra2@gmail.com";//Input::get('xxxx');
+        $recipientEmail = "rosdra@gmail.com"; // TODO parse multiple emails from input
+
+        $transferMessage = "testing " . uniqid();
+
+        $downloadURL = $_SERVER['SERVER_NAME'] . "/download/" . $transferid . "/" . $transferData->unique_id;
+
+        $data = [
+            'expirationDate'  => $expirationDate,
+            'totalSize'       => $totalSize,
+            'fileNames'       => $fileNames,
+            'senderEmail'     => $senderEmail,
+            'recipientEmail'  => $recipientEmail,
+            'transferMessage' => $transferMessage,
+            'downloadURL'     => $downloadURL,
+        ];
+
+        Mail::send('emails.recipientConfirmation', $data, function($message) use ($recipientEmail, $senderEmail) {
+            $message->to($recipientEmail, $recipientEmail)->subject($senderEmail . " has sent you a file");
+        });
+
+        Mail::send('emails.senderConfirmation', $data, function($message) use ($recipientEmail, $senderEmail) {
+            $message->to($senderEmail, $senderEmail)->subject("Thank you - file sent to " . $recipientEmail);
+        });
+
+        // Save emails related to this transfer
+        $transferData->sender_email = $senderEmail;
+        $transferData->recipient_email = $recipientEmail;
+        $transferData->message = $transferMessage;
+        $transferData->save();
+
+        return Redirect::to('/')->with('message', 'Thank you!');
+    }
 }
