@@ -7,17 +7,16 @@
 	<body>  
 	  	@yield('main scripts')
 	  		  	
-		<div class="container">
-	
-			<header class="row">
+		<div class="container-fluid bg-warning">
+			<header class="row-fluid">
 				@include('_includes.header')
 			</header>
 		
-			<div id="main" class="row">	
+			<div id="main" class="row-fluid">
                 @yield('content')
 			</div>
 		
-			<footer class="row">
+			<footer class="row-fluid">
 				@include('_includes.footer')
 			</footer>
 		</div>

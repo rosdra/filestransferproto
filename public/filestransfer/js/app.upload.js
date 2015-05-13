@@ -47,7 +47,7 @@ function Upload_Handler() {
             add: function (e, data) {
                 var $lstItems = $('.items-holder');
 
-                //Read photo at client
+                //Read file at client
                 $.each(data.files, function (index, file) {
                     uploadIndex++;// Index for each photo
                     var is1stFile = false;
@@ -56,6 +56,9 @@ function Upload_Handler() {
                         uploadIndex = 1;
                         currentStep = 1;
                         $('.btn-upload').attr('disabled', 'disabled');
+
+                        // prevent closing page
+                        setConfirmClosePage();
                     }
                     else{
                         $('.btn-upload').removeAttr('disabled');
@@ -205,7 +208,7 @@ function Upload_Handler() {
         });
     };
 
-    var confirmClosePage = function () {
+    var setConfirmClosePage = function () {
         window.onbeforeunload = function (e) {
             var msg = 'Are you sure to leave this page ?';
             e = e || window.event;

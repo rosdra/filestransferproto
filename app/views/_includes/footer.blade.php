@@ -2,7 +2,7 @@
 
 	<!-- inventories -->		
 	{{ HTML::style('filestransfer/css/_layouts/default.css') }}
-	{{ HTML::script('filestransfer/js/filestransfer.js') }}
+	{{ HTML::script('filestransfer/js/app.js') }}
 
 	<hr/>
 	<div class="copyright text-right">
