@@ -38,6 +38,11 @@ class DownloadController extends BaseController {
         $progressFileName = static::$STORE_FOLDER . $pid.".txt";
         $progressFileName = public_path($progressFileName);
 
+        $fp = fopen( $progressFileName, 'w' );
+        fwrite( $fp, "");
+        fclose( $fp );
+
+
         $identity = new IdentityService($_ENV['swiftendpoint']);
 
         // Init Utils and authenticate
