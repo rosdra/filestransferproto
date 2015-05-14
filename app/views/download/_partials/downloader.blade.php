@@ -21,7 +21,7 @@
                 <ul class="list-group items-holder">
                 @foreach($transfer->files as $transfer_file)
                     <li class="list-group-item">
-                       {{$transfer_file->original_name}}
+                       <h6><b>{{$transfer_file->original_name}}</b> ({{$transfer_file->size_readable}})</h6>
                     </li>
                 @endforeach
                 </ul>
@@ -64,5 +64,6 @@
 </div>
 
 <script>
+    var url_initial = '{{ url("/") }}';
     var url_download_progress = '{{url("/progress/".$pid)}}';
 </script>

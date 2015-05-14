@@ -55,15 +55,7 @@ function Upload_Handler() {
                         is1stFile = true;
                         uploadIndex = 1;
                         currentStep = 1;
-                        $('.btn-upload').attr('disabled', 'disabled');
-
-                        // prevent closing page
-                        setConfirmClosePage();
                     }
-                    else{
-                        $('.btn-upload').removeAttr('disabled');
-                    }
-
                     setupDropZone(currentStep);
 
                     // Extract EXIF data
@@ -231,11 +223,14 @@ function Upload_Handler() {
                 newStepHolder.find('div.plus-icon').show();
                 newStepHolder.find('h3').html('Drag & Drop your files');
                 newStepHolder.find('.btn-add').html('Select files');
-            }
-            else {
+            }else {
                 newStepHolder.find('h3').html('Drag & Drop more files');
                 newStepHolder.find('div.plus-icon').hide();
                 newStepHolder.find('.btn-add').html('Add more files');
+                // enable upload
+                $('.btn-upload').attr('disabled', 'disabled');
+                // prevent closing page
+                setConfirmClosePage();
             }
         }else if(step == 2){
             $('.btn-upload').hide();
@@ -243,6 +238,8 @@ function Upload_Handler() {
         }else if(step == 3){
             var items = newStepHolder.find('.items-holder');
             items.find('.item-state').show();
+            //unbind closing page
+            window.onbeforeunload = null;
         }
     };
 

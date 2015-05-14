@@ -205,7 +205,6 @@ textarea[name="photo[description]"] {
     border: 0.15em solid #b2b2b2;
     border-radius: 5px;
     color: #b2b2b2;
-    cursor: pointer;
     display: table;
     font-family: "helvetica neue",helvetica,arial,sans-serif;
     font-size: 18px;
