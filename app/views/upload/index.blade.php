@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="panel text-center col-xs-4 col-sm-4" >
-    <div id="dropzone" class="panel row">
+    <div id="dropzone" class="panel-body row">
     </div>
     <div id="options" class="row">
         <button type="button" class="btn btn-lg btn-warning btn-upload" disabled><i class="glyphicon glyphicon-cloud-upload"></i> upload</button>

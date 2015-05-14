@@ -24,8 +24,9 @@ class DownloadController extends BaseController {
     public function index($unique_id)
     {
         $transfer = $this->transfer->findByUniqueId($unique_id);
+        $pid = uniqid("", true);
         //TODO return download view
-        return View::make('upload.index');
+        return View::make('download.index')->with(compact('transfer', 'pid'));
     }
 
 
@@ -42,7 +43,7 @@ class DownloadController extends BaseController {
         // Init Utils and authenticate
         $objectStoreUtils = new ObjectStoreUtils($identity, $_ENV['swiftusername'], $_ENV['swiftpassword'], $_ENV['swifttenantname']);
 
-        $transfer = $this->transfer->findByUniqueId($id); // TODO change for findByUniqueId
+        $transfer = $this->transfer->find($id); // TODO change for findByUniqueId
 
         $zip =  $objectStoreUtils->download_transfer_files_as_zip($transfer,static::$STORE_FOLDER,$progressFileName);
 

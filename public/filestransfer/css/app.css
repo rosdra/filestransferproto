@@ -1,4 +1,3 @@
-
 .thin-font {
     font-family: "Lato",Calibri,Arial,sans-serif;
     font-weight: 300;
@@ -98,55 +97,11 @@ textarea {
     background: none repeat scroll 0 0 #fff;
     border: 1px solid #66afe9;
 }
-.exif {
-    font-size: 12px;
-}
-.exif .row label {
-    margin-top: 5px;
-}
-.exif .glyphicon {
-    padding-top: 6px;
-}
 .edit-zone .map-canvas {
     height: 240px;
 }
 textarea[name="photo[description]"] {
     margin-bottom: 56px;
-}
-.select2-choices {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
-    border: medium none !important;
-    box-shadow: none !important;
-    margin: -3px 0 0 -10px !important;
-}
-.select2-drop-active {
-    border: medium none;
-    border-radius: 0;
-}
-.select2-search-field input {
-    margin: 0;
-    padding-top: 3px !important;
-}
-.ui-timepicker-list .ui-timepicker-selected:hover {
-    background: none repeat scroll 0 0 #478bca;
-}
-.map {
-    position: relative;
-}
-.map.disabled:before {
-    bottom: 0;
-    content: "";
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 999;
-}
-.map-search {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    width: 70%;
 }
 .progress-holder {
     display: none;
@@ -214,10 +169,10 @@ textarea[name="photo[description]"] {
 }
 
 .dropzone .addmore .box{
-	border: 1px dashed #b2b2b2;
+	border: 0.15em dashed #b2b2b2;
     border-radius: 5px;
     color: #b2b2b2;
-    cursor: pointer;
+    /*cursor: pointer;*/
     display: table;
     font-family: "helvetica neue",helvetica,arial,sans-serif;
     font-size: 18px;
@@ -225,7 +180,8 @@ textarea[name="photo[description]"] {
     height: 100%;
     width: 100%;
 }
-.dropzone .addmore .box > div{
+.dropzone .addmore .box > div
+,.box-solid > div{
 	display: table-cell;
     text-align: center;
     vertical-align: middle;
@@ -239,8 +195,27 @@ textarea[name="photo[description]"] {
     margin-bottom: 12px;
     width: 100%;
 }
-.dropzone .addmore .box .items-holder{
+.dropzone .addmore .box .items-holder
+,.box-solid .items-holder{
     text-align: left;
     max-height: 180px;
     overflow: auto;
 }
+.box-solid{
+    border: 0.15em solid #b2b2b2;
+    border-radius: 5px;
+    color: #b2b2b2;
+    cursor: pointer;
+    display: table;
+    font-family: "helvetica neue",helvetica,arial,sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    height: 100%;
+    width: 100%;
+}
+.downloadzone {
+    line-height: 25px;
+    text-align: center;
+    font-weight: bold;
+}
+

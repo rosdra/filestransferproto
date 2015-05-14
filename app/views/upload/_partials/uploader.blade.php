@@ -1,5 +1,5 @@
 @section('extra-css')
-	{{ HTML::style('filestransfer/css/filestransfer.upload.css') }}
+	{{ HTML::style('filestransfer/css/app.css') }}
 @append
 @section('extra-js')
 	{{ HTML::script('jquery/plugins/js/fileupload/vendor/jquery.ui.widget.js') }}	
@@ -8,7 +8,7 @@
 	{{ HTML::script('jquery/plugins/js/fileupload/jquery.fileupload-video.js') }}
 	{{ HTML::script('jquery/plugins/js/jstemplate/tmpl.min.js') }}
 	{{ HTML::script('jquery/plugins/js/alert.js') }}
-	{{ HTML::script('filestransfer/js/filestransfer.upload.js') }}
+	{{ HTML::script('filestransfer/js/app.upload.js') }}
 @append
 
 <div class="container text-center start-zone">
