@@ -32,14 +32,23 @@ class DownloadController extends BaseController {
 
     public function download($id,$pid = null)
     {
+        $transfer = $this->transfer->find($id); // TODO change for findByUniqueId
+
         if($pid == null){
             $pid = uniqid("",true);
         }
         $progressFileName = static::$STORE_FOLDER . $pid.".txt";
         $progressFileName = public_path($progressFileName);
 
+        $array = [
+            "progress" => 0 ,
+            "downloaded" => 0,
+            "total" => ObjectStoreUtils::getTotalFileSize($transfer),
+            "finished" => false
+        ];
+        $content = json_encode($array);
         $fp = fopen( $progressFileName, 'w' );
-        fwrite( $fp, "");
+        fwrite( $fp, $content);
         fclose( $fp );
 
 
@@ -47,8 +56,6 @@ class DownloadController extends BaseController {
 
         // Init Utils and authenticate
         $objectStoreUtils = new ObjectStoreUtils($identity, $_ENV['swiftusername'], $_ENV['swiftpassword'], $_ENV['swifttenantname']);
-
-        $transfer = $this->transfer->find($id); // TODO change for findByUniqueId
 
         $zip =  $objectStoreUtils->download_transfer_files_as_zip($transfer,static::$STORE_FOLDER,$progressFileName);
 
@@ -109,8 +116,19 @@ class DownloadController extends BaseController {
             return \Response::make($contents);
         }
         else {
-            $array = ["error" => "Progress file does not exists"];
-            return \Response::json($array);
+
+            $array = [
+                "progress" => 0 ,
+                "downloaded" => 0,
+                "total" => 0,
+                "finished" => false
+            ];
+            $content = json_encode($array);
+            $fp = fopen( $progressFileName, 'w' );
+            fwrite( $fp, $content);
+            fclose( $fp );
+
+            return \Response::make($content);
         }
     }
 

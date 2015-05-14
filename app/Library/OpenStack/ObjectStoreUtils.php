@@ -297,7 +297,7 @@ class ObjectStoreUtils
         }
     }
 
-    protected function getTotalFileSize($transfer){
+    public static function getTotalFileSize($transfer){
         $total = 0;
         foreach($transfer->files()->get() as $f){
             $total = $total + $f->size;
