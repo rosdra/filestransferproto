@@ -54,11 +54,11 @@ function DownloadHandler(){
         newStepHolder.addClass("step-active");
 
         if (step == 1) {
-            if ($('.items-holder').length == 0) {
-                $('.btn-upload').removeAttr('disabled');
+            if ($('.items-holder').length > 0) {
+                $('.btn-download').removeAttr('disabled');
             }
         } else if (step == 2) {
-            $('.btn-upload').hide();
+            $('.btn-download').hide();
             $('.btn-cancel').show();
         } else if (step == 3) {
             $('.btn-cancel').hide();

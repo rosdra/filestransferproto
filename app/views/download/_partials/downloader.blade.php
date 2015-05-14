@@ -19,7 +19,7 @@
             </div>
             <div class="col-xs-12">
                 <ul class="list-group items-holder">
-                @foreach($transfer->files() as $transfer_file)
+                @foreach($transfer->files as $transfer_file)
                     <li class="list-group-item">
                        {{$transfer_file->original_name}}
                     </li>
