@@ -216,4 +216,7 @@ textarea[name="photo[description]"] {
     line-height: 25px;
     text-align: center;
     font-weight: bold;
+    min-height: 300px;
+    height: 400px;
+    width: 100%;
 }

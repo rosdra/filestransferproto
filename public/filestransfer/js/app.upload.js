@@ -65,7 +65,7 @@ function Upload_Handler() {
                     var itemHtml = tmpl("tmpl-upload-item", {
                         index: uploadIndex,
                         filename: file.name,
-                        filesize_readable: getReadableFileSizeString(file.size)
+                        filesize_readable: getFileSizeReadable(file.size)
                     });
                     $lstItems.append(itemHtml);
 
@@ -223,12 +223,13 @@ function Upload_Handler() {
                 newStepHolder.find('div.plus-icon').show();
                 newStepHolder.find('h3').html('Drag & Drop your files');
                 newStepHolder.find('.btn-add').html('Select files');
+                $('.btn-upload').attr('disabled', 'disabled');
             }else {
                 newStepHolder.find('h3').html('Drag & Drop more files');
                 newStepHolder.find('div.plus-icon').hide();
                 newStepHolder.find('.btn-add').html('Add more files');
                 // enable upload
-                $('.btn-upload').attr('disabled', 'disabled');
+                $('.btn-upload').removeAttr('disabled');
                 // prevent closing page
                 setConfirmClosePage();
             }
@@ -249,7 +250,7 @@ function Upload_Handler() {
     var showProgress = function (rate, loaded, total) {
         var $p = $('.progress-holder');
         if (!$p.is(':visible')) $p.show();
-        $p.find('.progress-label').text(getReadableFileSizeString(loaded) + ' of ' + getReadableFileSizeString(total) + ' completed');
+        $p.find('.progress-label').text(getFileSizeReadable(loaded) + ' of ' + getFileSizeReadable(total) + ' completed');
         $p.find('.progress-bar').css('width', rate + '%');
         $p.find('.progress-rate').text(rate + '%');
     };
@@ -269,7 +270,7 @@ function Upload_Handler() {
         }
     };
 
-    var getReadableFileSizeString = function(fileSizeInBytes) {
+    var getFileSizeReadable = function(fileSizeInBytes) {
         var i = -1;
         var byteUnits = [' KB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
         do {

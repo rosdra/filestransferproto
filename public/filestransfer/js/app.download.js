@@ -31,6 +31,8 @@ function DownloadHandler(){
                 .fail(function (response) {
 
                 });
+
+            showProgress(0, 0, -1);
             window.setTimeout(function () {
                 // start progress
                 getProgress();
@@ -79,21 +81,24 @@ function DownloadHandler(){
     };
 
     var setProgressAll = function (data) {
+
+        showProgress(data.progress, data.downloaded, data.total);
         if (data.finished === false) {
-            showProgress(data.progress, data.downloaded, data.total);
             window.setTimeout(function () {
                 getProgress();
-            },200);
+            },500);
         }
         else {
-            redirectProgress('Finished.');
+            redirectProgress('Completing...');
+            setTimeout(function () {
+                redirectProgress('Completed');
+            }, 1000);
+            hideProgress();
 
             currentStep = 3;
             window.setTimeout(function () {
                 setupDownloadZone(currentStep);
-            }, 1000);
-
-            hideProgress();
+            }, 100);
 
             $url = data.zip;
             setTimeout(function () {
@@ -112,7 +117,7 @@ function DownloadHandler(){
     var showProgress = function (rate, loaded, total) {
         var $p = $('.progress-holder');
         if (!$p.is(':visible')) $p.show();
-        $p.find('.progress-label').text(getReadableFileSizeString(loaded) + ' of ' + getReadableFileSizeString(total) + ' completed');
+        $p.find('.progress-label').text(getFileSizeReadable(loaded) + ' of ' + getFileSizeReadable(total) + ' completed');
         $p.find('.progress-bar').css('width', rate + '%');
         $p.find('.progress-rate').text(rate + '%');
     };
@@ -123,7 +128,7 @@ function DownloadHandler(){
 
     var redirectProgress = function (text) {
         var $p = $('.progress-holder');
-        $p.find('.progress-rate').text(text);
+        $p.find('.progress-label').text(text);
     };
 
     var clearClientStorage = function () {
@@ -132,7 +137,7 @@ function DownloadHandler(){
         }
     };
 
-    var getReadableFileSizeString = function (fileSizeInBytes) {
+    var getFileSizeReadable = function (fileSizeInBytes) {
         var i = -1;
         var byteUnits = [' KB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
         do {
