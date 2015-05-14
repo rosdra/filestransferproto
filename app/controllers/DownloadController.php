@@ -97,7 +97,7 @@ class DownloadController extends BaseController {
             $message->to($senderEmail, $senderEmail)->subject("Download confirmation from " . $recipientEmail);
         });
 
-        return \Response::json(array("zip"=>basename($zip)));
+        return \Response::json(array("zip"=>url("/server")."/".basename($zip)));
     }
 
 

@@ -25,7 +25,7 @@ function DownloadHandler(){
             // download
             $.get(url, data)
                 .done(function (response) {
-                    $url = $("#a-start-downloading").data("base-url") + "/server/" + response.zip;
+                    $url = response.zip;
                     setTimeout(function () { window.location = $url; }, 500);
                 })
                 .fail(function (response) {

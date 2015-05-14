@@ -181,7 +181,7 @@ class ObjectStoreUtils
                 unlink($file["fileTemp"]);
             }
 
-            $array = ["finished" => true , "zip" => $destination];
+            $array = ["finished" => true , "zip" => url("/server")."/".basename($destination)];
             $fp = fopen($progressFileName, 'w');
             fwrite($fp, json_encode($array));
             fclose($fp);
