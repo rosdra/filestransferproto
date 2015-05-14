@@ -25,8 +25,8 @@ function DownloadHandler(){
             // download
             $.get(url, data)
                 .done(function (response) {
-                    $url = response.zip;
-                    setTimeout(function () { window.location = $url; }, 500);
+                    //$url = response.zip;
+                    //setTimeout(function () { window.location = $url; }, 500);
                 })
                 .fail(function (response) {
 
@@ -88,6 +88,12 @@ function DownloadHandler(){
             }, 1000);
 
             hideProgress();
+
+            $url = response.zip;
+            setTimeout(function () {
+                window.off('onbeforeunload');
+                window.location = $url;
+            }, 500);
         }
     };
 
