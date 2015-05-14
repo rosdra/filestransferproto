@@ -147,8 +147,9 @@ class UploadController extends BaseController {
             $fileNames .= $transferFile->original_name . "<br>";
         }
 
-        $totalSize = $totalSize / 1024;
-        $totalSize = round($totalSize, 2);
+        $objectStoreUtils = Session::get('objectStoreUtils');
+
+        $totalSize = $objectStoreUtils->byteFormat($totalSize);
 
         $senderEmail = "rosdra2@gmail.com";//Input::get('xxxx');
         $recipientEmail = "rosdra@gmail.com"; // TODO parse multiple emails from input
@@ -167,13 +168,15 @@ class UploadController extends BaseController {
             'downloadURL'     => $downloadURL,
         ];
 
-        Mail::send('emails.recipientConfirmation', $data, function($message) use ($recipientEmail, $senderEmail) {
-            $message->to($recipientEmail, $recipientEmail)->subject($senderEmail . " has sent you a file");
-        });
+        if ($_ENV["emailsenabled"]) {
+            Mail::send('emails.recipientConfirmation', $data, function ($message) use ($recipientEmail, $senderEmail) {
+                $message->to($recipientEmail, $recipientEmail)->subject($senderEmail . " has sent you a file");
+            });
 
-        Mail::send('emails.senderConfirmation', $data, function($message) use ($recipientEmail, $senderEmail) {
-            $message->to($senderEmail, $senderEmail)->subject("Thank you - file sent to " . $recipientEmail);
-        });
+            Mail::send('emails.senderConfirmation', $data, function ($message) use ($recipientEmail, $senderEmail) {
+                $message->to($senderEmail, $senderEmail)->subject("Thank you - file sent to " . $recipientEmail);
+            });
+        }
 
         // Save emails related to this transfer
         $transferData->sender_email = $senderEmail;

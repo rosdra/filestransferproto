@@ -77,7 +77,7 @@
                                     <tr>
                                         <td style="font-family:Helvetica, sans-serif;font-size:13px;line-height:20px;padding:5px 0 0 0;margin:0;">
                                             <span style="font-weight:bold;">
-                                                Files ({{ $totalSize }} KB total)
+                                                Files ({{ $totalSize }} total)
                                             </span>
                                             <br>
                                             {{ $fileNames }}
@@ -95,11 +95,13 @@
                                     </tr>
                                     <tr>
                                         <td style="font-family:Helvetica, sans-serif;font-size:13px;line-height:20px;padding:20px 0 0 0;margin:0;">
-                                            <span style="font-weight:bold;">
-                                                Download Link
-                                            </span>
-                                            <br>
-                                            <a href="{{ $downloadURL }}" style="color:#1294dc;text-decoration:none;">{{ $downloadURL }}</a>
+                                            <table border="0" cellpadding="0" cellspacing="0" style="background-color:#38383a;">
+                                                <tr>
+                                                    <td><a href="{{ $downloadURL }}"><img border="0" height="34" src="https://assets.wetransfer.net/assets/email/v1/button_black_l.gif" style="display:block;" width="17"></a></td>
+                                                    <td><a href="{{ $downloadURL }}" style="font-family:Helvetica, sans-serif;font-size:15px;font-weight:bold;color:#ffffff;text-decoration:none;">Download</a></td>
+                                                    <td><a href="{{ $downloadURL }}"><img border="0" height="34" src="https://assets.wetransfer.net/assets/email/v1/button_black_r.gif" style="display:block;" width="17"></a></td>
+                                                </tr>
+                                            </table>
                                         </td>
                                     </tr>
                                 </table>

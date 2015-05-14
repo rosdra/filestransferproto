@@ -87,7 +87,7 @@
                                     <tr>
                                         <td style="font-family:Helvetica, sans-serif;font-size:13px;line-height:20px;padding:5px 0 0 0;margin:0;">
                                             <span style="font-weight:bold;">
-                                                Files ({{ $totalSize }} KB total)
+                                                Files ({{ $totalSize }} total)
                                             </span>
                                             <br>
                                             {{ $fileNames }}

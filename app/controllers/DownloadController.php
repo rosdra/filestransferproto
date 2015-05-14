@@ -73,8 +73,7 @@ class DownloadController extends BaseController {
             $fileNames .= $transferFile->original_name . "<br>";
         }
 
-        $totalSize = $totalSize / 1024;
-        $totalSize = round($totalSize, 2);
+        $totalSize = $objectStoreUtils->byteFormat($totalSize);
 
         $senderEmail = $transfer->sender_email;
         $recipientEmail = $transfer->recipient_email; // TODO parse multiple emails from input
@@ -93,9 +92,11 @@ class DownloadController extends BaseController {
             'downloadURL'     => $downloadURL,
         ];
 
-        Mail::send('emails.downloadConfirmation', $data, function($message) use ($recipientEmail, $senderEmail) {
-            $message->to($senderEmail, $senderEmail)->subject("Download confirmation from " . $recipientEmail);
-        });
+        if ($_ENV['emailsenabled']) {
+            Mail::send('emails.downloadConfirmation', $data, function ($message) use ($recipientEmail, $senderEmail) {
+                $message->to($senderEmail, $senderEmail)->subject("Download confirmation from " . $recipientEmail);
+            });
+        }
 
         return \Response::json(array("zip"=>url("/server")."/".basename($zip)));
     }
