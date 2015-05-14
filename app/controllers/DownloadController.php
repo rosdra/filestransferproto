@@ -24,8 +24,9 @@ class DownloadController extends BaseController {
     public function index($unique_id)
     {
         $transfer = $this->transfer->findByUniqueId($unique_id);
+        $pid = uniqid("", true);
         //TODO return download view
-        return View::make('download.index')->with(compact('transfer'));
+        return View::make('download.index')->with(compact('transfer', 'pid'));
     }
 
 

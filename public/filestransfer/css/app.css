@@ -172,7 +172,7 @@ textarea[name="photo[description]"] {
 	border: 0.15em dashed #b2b2b2;
     border-radius: 5px;
     color: #b2b2b2;
-    cursor: pointer;
+    /*cursor: pointer;*/
     display: table;
     font-family: "helvetica neue",helvetica,arial,sans-serif;
     font-size: 18px;
@@ -180,7 +180,8 @@ textarea[name="photo[description]"] {
     height: 100%;
     width: 100%;
 }
-.dropzone .addmore .box > div{
+.dropzone .addmore .box > div
+,.box-solid > div{
 	display: table-cell;
     text-align: center;
     vertical-align: middle;
@@ -194,7 +195,8 @@ textarea[name="photo[description]"] {
     margin-bottom: 12px;
     width: 100%;
 }
-.dropzone .addmore .box .items-holder{
+.dropzone .addmore .box .items-holder
+,.box-solid .items-holder{
     text-align: left;
     max-height: 180px;
     overflow: auto;
@@ -210,5 +212,10 @@ textarea[name="photo[description]"] {
     font-weight: normal;
     height: 100%;
     width: 100%;
+}
+.downloadzone {
+    line-height: 25px;
+    text-align: center;
+    font-weight: bold;
 }
 

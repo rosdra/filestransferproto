@@ -10,7 +10,7 @@
 
 <div class="box-solid">
     <div id="step-1" class="step-active">
-        <form id="filedownload" action="{{ url('/download/'.$transfer->id.'/'.$transfer->unique_id) }}" method="GET" enctype="multipart/form-data" accept="*/*">
+        <form id="filedownload" action="{{ url('/download/'.$transfer->id.'/'.$pid) }}" method="GET" enctype="multipart/form-data" accept="*/*">
             <div class="col-xs-12">
                 <div class="text-center">
                     <h3>DOWNLOAD FILES...</h3>
@@ -64,5 +64,5 @@
 </div>
 
 <script>
-    var url_download_progress = '{{url("/progress/".$transfer->unique_id)}}';
+    var url_download_progress = '{{url("/progress/".$pid)}}';
 </script>

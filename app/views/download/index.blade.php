@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="panel text-center col-xs-4 col-sm-4" >
-    <div id="downloadzone" class="row panel-body">
+    <div id="downloadzone" class="row panel-body downloadzone">
         @include('download._partials.downloader')
     </div>
     <div id="options" class="row">
