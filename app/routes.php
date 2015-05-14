@@ -36,27 +36,45 @@ Route::get('/curltest', function() {
 
 Route::get('/utils',function(){
 
-
-    $identity = new \OpenStack\Identity\v2\IdentityService($_ENV['swiftendpoint']);
-
-
-    echo '<h2>identity</h2><pre>';
-    var_dump($identity);
-    echo '</pre>';
-
+    $ops = [
+        'passwordCredentials' => [
+            'username' => $_ENV['swiftusername'],
+            'password' => $_ENV['swiftpassword'],
+        ]
+    ];
+    // If a tenant ID is provided, added it to the auth array.
+    $ops['tenantName'] = $_ENV['swifttenantname'];
+    $envelope = [
+        'auth' => $ops,
+    ];
+    $data = json_encode($envelope);
+    $urli = $_ENV['swiftendpoint']."/tokens";
+    $ch = curl_init($urli);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     try {
-        $token = $identity->authenticateAsUser($_ENV['swiftusername'], $_ENV['swiftpassword'], null, $_ENV['swifttenantname']);
-
-
-        echo '<h2>token</h2><pre>';
-        var_dump($token);
-        echo '</pre>';
+        $response = curl_exec($ch);
     }
-    catch(\OpenStack\Common\Exception $ex){
-        echo '<h2>token</h2><pre>';
+    catch(Exception $ex){
         var_dump($ex);
-        echo '</pre>';
     }
+    $info = curl_getinfo($ch);
+    curl_close($ch);
+
+
+        //$token = $identity->authenticateAsUser($_ENV['swiftusername'], $_ENV['swiftpassword'], null, $_ENV['swifttenantname']);
+
+
+        echo '<h2>curl_getinfo</h2><pre>';
+        var_dump($info);
+        echo '</pre>';
+    echo '<h2>$response</h2><pre>';
+    var_dump($response);
+    echo '</pre>';
 
     echo 'finished';
 });
