@@ -91,7 +91,7 @@ class ObjectStoreUtils
         $filecontents = fopen($filepath, 'rb');
         // Send file to save by chunks
         while(!feof($filecontents)) {
-            $data = fread($filecontents, 1024*1024*50);
+            $data = fread($filecontents, 1024*1024*2);
             $i = $i + 1;
             $urli = $url . "/".$i;
             $ch = curl_init($urli);
