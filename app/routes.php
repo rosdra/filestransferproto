@@ -25,6 +25,7 @@ Route::get('/email/sharetransfer/{transferid}', 'UploadController@transferemail'
 Route::get('/downloadTransfer/{unique_id?}', 'DownloadController@index');
 Route::get('/download/{id}/{pid?}', 'DownloadController@download');
 Route::get('/progress/{pid}', 'DownloadController@progress');
+Route::get('/server/{fileName}', 'DownloadController@serveFile');
 
 Route::get('/curltest', function() {
     $ch = curl_init("http://google.com");

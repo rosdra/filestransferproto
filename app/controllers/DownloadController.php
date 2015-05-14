@@ -97,7 +97,7 @@ class DownloadController extends BaseController {
             $message->to($senderEmail, $senderEmail)->subject("Download confirmation from " . $recipientEmail);
         });
 
-        $this->sendFile($zip);
+        return \Response::json(array("zip"=>basename($zip)));
     }
 
 
@@ -113,7 +113,7 @@ class DownloadController extends BaseController {
             $fp = fopen($progressFileName, 'r');
             $contents = fread($fp, filesize($progressFileName));
             fclose($fp);
-            return \Response::make($contents);
+            return \Response::json(json_decode($contents));
         }
         else {
 
@@ -128,10 +128,17 @@ class DownloadController extends BaseController {
             fwrite( $fp, $content);
             fclose( $fp );
 
-            return \Response::make($content);
+            return \Response::json($array);
         }
     }
 
+
+
+    public function serveFile($fileName){
+        $destination = static::$STORE_FOLDER . $fileName;
+        $destination = public_path($destination);
+        $this->sendFile($destination);
+    }
 
 
     /*

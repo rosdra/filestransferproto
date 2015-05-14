@@ -25,13 +25,16 @@ function DownloadHandler(){
             // download
             $.get(url, data)
                 .done(function (response) {
-
+                    $url = $("#a-start-downloading").data("base-url") + "/server/" + response.zip;
+                    setTimeout(function () { window.location = $url; }, 500);
                 })
                 .fail(function (response) {
 
                 });
-            // start progress
-            getProgress();
+            window.setTimeout(function () {
+                // start progress
+                getProgress();
+            },200);
         });
     };
 
@@ -72,7 +75,9 @@ function DownloadHandler(){
     var setProgressAll = function (data) {
         if (data.finished === false) {
             showProgress(data.progress, data.downloaded, data.total);
-            getProgress();
+            window.setTimeout(function () {
+                getProgress();
+            },200);
         }
         else {
             redirectProgress('Finished.');
