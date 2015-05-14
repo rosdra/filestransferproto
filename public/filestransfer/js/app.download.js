@@ -89,9 +89,9 @@ function DownloadHandler(){
 
             hideProgress();
 
-            $url = response.zip;
+            $url = data.zip;
             setTimeout(function () {
-                window.off('onbeforeunload');
+                window.onbeforeunload = null;
                 window.location = $url;
             }, 500);
         }
