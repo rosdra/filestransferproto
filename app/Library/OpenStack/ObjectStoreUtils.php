@@ -80,7 +80,7 @@ class ObjectStoreUtils
         // get file mime type
         $finfo = new finfo(FILEINFO_MIME);
         $type = $finfo->file($filepath);
-        $token = $objectStore->token();
+        $token = Session::get('token');;
         $url = $container->url() . "/" . $filename;
         $manifestUrl = $container->name() . "/" . $filename."/";
 

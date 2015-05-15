@@ -27,7 +27,13 @@ class UploadController extends BaseController {
         // Init Utils and authenticate
         $objectStoreUtils = new ObjectStoreUtils($identity, $_ENV['swiftusername'], $_ENV['swiftpassword'], $_ENV['swifttenantname']);
 
+        // Get object service
+        $objectStore = $objectStoreUtils->getObjectStore();
+        $token = $objectStore->token();
+
         Session::put('objectStoreUtils', $objectStoreUtils);
+        Session::put('token', $token);
+
         Session::forget('transfer_id');
 
         //$containerName = uniqid();
