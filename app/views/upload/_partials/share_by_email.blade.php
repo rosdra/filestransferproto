@@ -8,7 +8,7 @@
                 </span>
             </h3>
         </div>
-
+        <form id="fileshare" action="{{ route('files.share') }}" method="POST" enctype="multipart/form-data" accept="*/*">
         <div class="form-group">
             <div class="list-group recipients-holder">
                 <div class="input-group">
@@ -27,6 +27,7 @@
         <div class="form-group">
             <textarea name="message" id="message" class="form-control input-lg" rows="4" placeholder="Write a message"></textarea>
         </div>
+        </form>
     </div>
 </div>
 

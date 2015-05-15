@@ -110,7 +110,7 @@ function Upload_Handler() {
                     console.log(e);
                     console.log('upload was successful');
 
-                    transferId = data.transfer_id;
+                    transferId = e.transfer_id;
                     console.log('transferId: ' + transferId);
                 }
             },
@@ -203,7 +203,19 @@ function Upload_Handler() {
         });
 
         $('.btn-share').on('click', function (e) {
+            var form = $('#fileshare');
+            var url = form.attr('action') + "/" + transferId;
+            var method = form.attr('method');
+            var data = form.serializeArray();
+            // share
+            $.get(url, data)
+                .done(function (response) {
+                    //$url = response.zip;
+                    //setTimeout(function () { window.location = $url; }, 500);
+                })
+                .fail(function (response) {
 
+                });
         });
     };
 
