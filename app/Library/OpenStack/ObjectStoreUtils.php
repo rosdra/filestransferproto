@@ -26,6 +26,7 @@ class ObjectStoreUtils
         // $token will be your authorization key when you connect to other
         // services. You can also get it from $identity->token().
         $token = $this->identity->authenticateAsUser($this->username, $this->password, null, $this->tenantName);
+        Session::put('token', $token);
 
         // Get a listing of all of the services you currently have configured in
         // OpenStack.
