@@ -29,10 +29,8 @@ class UploadController extends BaseController {
 
         // Get object service
         $objectStore = $objectStoreUtils->getObjectStore();
-        $token = $objectStore->token();
 
         Session::put('objectStoreUtils', $objectStoreUtils);
-        Session::put('token', $token);
 
         Session::forget('transfer_id');
 
