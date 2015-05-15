@@ -93,8 +93,8 @@ class UploadController extends BaseController {
             $container = $objectStoreUtils->createAndOrRetrieveContainer($objectStore, $containerName);
 
             // Upload file to swift
-            //$success = $objectStoreUtils->uploadFile($container, $fileFullPath);
-            $success = $objectStoreUtils->uploadFileChunks($container,$objectStore, $fileFullPath);
+            $success = $objectStoreUtils->uploadFile($container, $fileFullPath);
+            //$success = $objectStoreUtils->uploadFileChunks($container,$objectStore, $fileFullPath);
 
             if($success == true) {
                 $slug = Str::slug($fileOriginalName);
@@ -116,7 +116,11 @@ class UploadController extends BaseController {
                             ]
                         ]
                     ];
-                    $this->transfer->create($data);
+                    $newTransfer = $this->transfer->create($data);
+                    // save new transfer in session
+                    $transfer_id = $newTransfer->id;
+                    Session::set('transfer_id', $transfer_id);
+
                 } else {
                     $data = [
                         'original_name' => $fileOriginalName,
@@ -129,7 +133,7 @@ class UploadController extends BaseController {
                 }
 
                 // response
-                $response = array('success' => $success, 'file_name' => $fileName);
+                $response = array('success' => $success, 'file_name' => $fileName, 'transfer_id' => $transfer_id);
             }
             else{
                 $response = array('success' => $success);
@@ -137,6 +141,8 @@ class UploadController extends BaseController {
             return \Response::json($response);
         }
     }
+
+
 
     public function transferemail($transferid) {
         $transferData = $this->transfer->find($transferid);
@@ -156,6 +162,8 @@ class UploadController extends BaseController {
         $objectStoreUtils = Session::get('objectStoreUtils');
 
         $totalSize = $objectStoreUtils->byteFormat($totalSize);
+
+        $allData = Input::all();
 
         $senderEmail = "rosdra2@gmail.com";//Input::get('xxxx');
         $recipientEmail = "rosdra@gmail.com"; // TODO parse multiple emails from input

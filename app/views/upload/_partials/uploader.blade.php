@@ -11,7 +11,7 @@
 	{{ HTML::script('filestransfer/js/app.upload.js') }}
 @append
 
-<div class="container text-center start-zone">
+<div class="text-center">
     <form id="fileupload" action="{{ route('files.upload') }}" method="POST" enctype="multipart/form-data" accept="*/*">
         <input type="file" id="input-browse" class="block-hide" multiple="multiple" name="files">
     </form>
@@ -86,4 +86,5 @@
 </script>
 <script>
     var url_initial = '{{ url("/") }}';
+    var url_share = '{{ route("files.share") }}';
 </script>

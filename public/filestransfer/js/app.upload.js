@@ -29,7 +29,7 @@ function Upload_Handler() {
     var filesToUpload = [];
 
     var init = function () {
-        var jqXHR, uploadIndex = 0, currentStep = 1;
+        var jqXHR, uploadIndex = 0, currentStep = 1, transferId = 0;
 
         $('#fileupload').fileupload({
             progressInterval: 50,
@@ -106,16 +106,20 @@ function Upload_Handler() {
                 if (e == 'failed') {
                      alertify.alert('upload failed')
                 }else{
-                    console.log('data: ' + data);
-                    console.log('e: ' + e);
-                    console.log('upload was successful');                }
+                    console.log(data);
+                    console.log(e);
+                    console.log('upload was successful');
+
+                    transferId = data.transfer_id;
+                    console.log('transferId: ' + transferId);
+                }
             },
 
             done: function (e, data) {
                 if (e == 'failed') {
                     alertify.alert('upload failed')
-                    console.log(data);
                 }
+                console.log(data);
             },
 
             fail: function () {
@@ -172,7 +176,6 @@ function Upload_Handler() {
 
                 // If no photo remains, reset start-zone
                 if ($('.upload-thumbnail').length == 0) {
-                    $('.start-zone').show();
                     $('.uploader').addClass('block-hide');
                     is1stFile = true;
                     filesToUpload = [];
@@ -197,6 +200,10 @@ function Upload_Handler() {
             window.setTimeout(function(){
                 window.location.href = url_initial;
             }, 0);
+        });
+
+        $('.btn-share').on('click', function (e) {
+
         });
     };
 
@@ -241,6 +248,8 @@ function Upload_Handler() {
             items.find('.item-state').show();
             //unbind closing page
             window.onbeforeunload = null;
+            // show share
+            $('#sharecontainer').show();
         }
     };
 

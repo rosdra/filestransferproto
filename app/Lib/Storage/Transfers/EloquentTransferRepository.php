@@ -56,8 +56,6 @@ class EloquentTransferRepository implements ITransferRepository
             //$u->files()->saveMany($arrayFilesToSave);
         }
 
-        \Session::set('transfer_id',$u->id);
-
         return $u;
     }
 
