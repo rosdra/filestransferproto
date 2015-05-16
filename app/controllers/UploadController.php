@@ -33,6 +33,7 @@ class UploadController extends BaseController {
         Session::put('objectStoreUtils', $objectStoreUtils);
 
         Session::forget('transfer_id');
+        Session::forget('containerUrl');
 
         //$containerName = uniqid();
         //Session::put('containerName', $containerName);*/
@@ -82,17 +83,19 @@ class UploadController extends BaseController {
                 if($transfer != null)
                     $containerName = $transfer->container_name;
             }
-
-            // Get object service
-            $objectStore = $objectStoreUtils->getObjectStore();
-
-            // Create and retrieve the container
-            // To get the file AND delete the container when the file is downloaded
-            $container = $objectStoreUtils->createAndOrRetrieveContainer($objectStore, $containerName);
+            else
+            {
+                // Get object service
+                $objectStore = $objectStoreUtils->getObjectStore();
+                // Create and retrieve the container
+                // To get the file AND delete the container when the file is downloaded
+                $container = $objectStoreUtils->createAndOrRetrieveContainer($objectStore, $containerName);
+                Session::put("containerUrl", $container->url());
+            }
 
             // Upload file to swift
-            $success = $objectStoreUtils->uploadFile($container, $fileFullPath);
-            //$success = $objectStoreUtils->uploadFileChunks($container,$objectStore, $fileFullPath);
+            //$success = $objectStoreUtils->uploadFile($container, $fileFullPath);
+            $success = $objectStoreUtils->uploadFileChunks($containerName, $fileFullPath);
 
             if($success == true) {
                 $slug = Str::slug($fileOriginalName);

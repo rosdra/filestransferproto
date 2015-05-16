@@ -74,16 +74,16 @@ class ObjectStoreUtils
         return $container->save($localObject);
     }
 
-    function uploadFileChunks(Container $container, ObjectStorage $objectStore, $filepath) {
+    function uploadFileChunks($containerName, $filepath) {
 
         $filename = basename($filepath);
 
         // get file mime type
         $finfo = new finfo(FILEINFO_MIME);
         $type = $finfo->file($filepath);
-        $token = Session::get('token');;
-        $url = $container->url() . "/" . $filename;
-        $manifestUrl = $container->name() . "/" . $filename."/";
+        $token = Session::get('token');
+        $url =  Session::get('containerUrl') . "/" . $filename;
+        $manifestUrl = $containerName . "/" . $filename."/";
 
         $data = '';
         $i=0;
