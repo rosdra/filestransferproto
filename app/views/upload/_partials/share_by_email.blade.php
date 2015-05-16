@@ -1,5 +1,5 @@
 <div class="box-solid-only">
-    <div class="panel-body text-center">
+    <div id="share-step-1" class="panel-body text-center">
         <div class="panel-heading row">
             <h3>
                 <span class="pull-left">SHARE WITH EMAIL</span>
@@ -29,6 +29,22 @@
         </div>
         </form>
     </div>
+    <div id="share-step-2" class="panel-body text-center" style="display: none">
+        <div class="col-xs-12">
+            <div class="text-center">
+                <span class="fa fa-envelope fa-4x"></span>
+                <h3>FILES SHARED!</h3>
+                <h5>You'll receive a confirmation email in your inbox</h5><br/>
+            </div>
+            <div class="col-xs-12">
+                <h5>
+                    Maximum upload single size files: 10 GB<br/>
+                    Need more? <a href="#">Upgrade to Professional</a>
+                </h5>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script type="text/x-tmpl" id="tmpl-new-recipient">

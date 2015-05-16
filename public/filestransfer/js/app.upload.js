@@ -211,13 +211,24 @@ function Upload_Handler() {
             data.push({'name': 'transfer_id', 'value': transferId})
             // share
             $.get(url, data)
-                .done(function (response) {
-                    //$url = response.zip;
-                    //setTimeout(function () { window.location = $url; }, 500);
+                .always(function (response) {
+                    $('#share-step-1').hide();
+                    $('.btn-share').hide();
+
+                    $('#share-step-2').show();
+                    $('.btn-share-again').show();
                 })
                 .fail(function (response) {
 
                 });
+        });
+
+        $('.btn-share-again').on('click', function (e) {
+            $('#share-step-1').show();
+            $('.btn-share').show();
+
+            $('#share-step-2').hide();
+            $('.btn-share-again').hide();
         });
     };
 

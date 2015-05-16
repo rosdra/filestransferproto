@@ -147,7 +147,11 @@ class UploadController extends BaseController {
 
     public function transferemail() {
         $allData = Input::all();
-        $transferid = $allData['transfer_id'];
+
+        $senderEmail = Input::get('sender');
+        $recipientEmailList = Input::get('recipient');
+//        $recipientEmailList = array_values($recipientEmailList);
+        $transferid = Input::get('transfer_id');
 
         $transferData = $this->transfer->find($transferid);
         $fileExpirationDays = $_ENV["fileexpirationdays"];
@@ -167,36 +171,36 @@ class UploadController extends BaseController {
 
         $totalSize = $objectStoreUtils->byteFormat($totalSize);
 
-        $senderEmail = "rosdra2@gmail.com";//Input::get('xxxx');
-        $recipientEmail = "rosdra@gmail.com"; // TODO parse multiple emails from input
-
         $transferMessage = "testing " . uniqid();
 
-        $downloadURL = $_SERVER['SERVER_NAME'] . "/download/" . $transferid . "/" . $transferData->unique_id;
+        $downloadURL = url('/downloadTransfer/'.$transferData->unique_id);
+//        $downloadURL = $_SERVER['SERVER_NAME'] . "/downloadTransfer/" . $transferid . "/" . $transferData->unique_id;
 
+        $recipientEmailListString = implode(';', $recipientEmailList);
         $data = [
             'expirationDate'  => $expirationDate,
             'totalSize'       => $totalSize,
             'fileNames'       => $fileNames,
             'senderEmail'     => $senderEmail,
-            'recipientEmail'  => $recipientEmail,
+            'recipientEmail'  => $recipientEmailListString,
             'transferMessage' => $transferMessage,
             'downloadURL'     => $downloadURL,
         ];
 
+
         if ($_ENV["emailsenabled"]) {
-            Mail::send('emails.recipientConfirmation', $data, function ($message) use ($recipientEmail, $senderEmail) {
-                $message->to($recipientEmail, $recipientEmail)->subject($senderEmail . " has sent you a file");
+            Mail::send('emails.recipientConfirmation', $data, function ($message) use ($recipientEmailList, $senderEmail) {
+                $message->to($recipientEmailList, $recipientEmailList)->subject($senderEmail . " has sent you a file");
             });
 
-            Mail::send('emails.senderConfirmation', $data, function ($message) use ($recipientEmail, $senderEmail) {
-                $message->to($senderEmail, $senderEmail)->subject("Thank you - file sent to " . $recipientEmail);
+            Mail::send('emails.senderConfirmation', $data, function ($message) use ($recipientEmailList, $senderEmail, $recipientEmailListString) {
+                $message->to($senderEmail, $senderEmail)->subject("Thank you - file sent to " . $recipientEmailListString);
             });
         }
 
         // Save emails related to this transfer
         $transferData->sender_email = $senderEmail;
-        $transferData->recipient_email = $recipientEmail;
+        $transferData->recipient_email = $recipientEmailListString;
         $transferData->message = $transferMessage;
         $transferData->save();
 

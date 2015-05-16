@@ -212,7 +212,7 @@ textarea[name="photo[description]"] {
     height: 100%;
     width: 100%;
 }
-.downloadzone {
+.downloadzone, .sharezone {
     line-height: 25px;
     text-align: center;
     font-weight: bold;
