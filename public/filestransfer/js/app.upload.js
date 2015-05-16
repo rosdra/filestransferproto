@@ -204,9 +204,11 @@ function Upload_Handler() {
 
         $('.btn-share').on('click', function (e) {
             var form = $('#fileshare');
-            var url = form.attr('action') + "/" + transferId;
+            var url = form.attr('action');
             var method = form.attr('method');
             var data = form.serializeArray();
+
+            data.push({'name': 'transfer_id', 'value': transferId})
             // share
             $.get(url, data)
                 .done(function (response) {

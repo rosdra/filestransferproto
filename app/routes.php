@@ -18,7 +18,7 @@ Route::get('/', 'UploadController@index');
 Route::group(array('before' => 'ajax|ajaxban'), function () {
     Route::post('uploadfiles', ['as' => 'files.upload', 'uses' => 'UploadController@upload'])->before('ban');
     // Emails test
-    Route::get('sharefiles/{transferid}', ['as' => 'files.share', 'uses' => 'UploadController@transferemail'])->before('ban');
+    Route::get('sharefiles', ['as' => 'files.share', 'uses' => 'UploadController@transferemail'])->before('ban');
 });
 
 //Just a test

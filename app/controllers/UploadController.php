@@ -142,7 +142,10 @@ class UploadController extends BaseController {
 
 
 
-    public function transferemail($transferid) {
+    public function transferemail() {
+        $allData = Input::all();
+        $transferid = $allData['transfer_id'];
+
         $transferData = $this->transfer->find($transferid);
         $fileExpirationDays = $_ENV["fileexpirationdays"];
         $srtToAddDays = " + " . $fileExpirationDays . " day";
@@ -160,8 +163,6 @@ class UploadController extends BaseController {
         $objectStoreUtils = Session::get('objectStoreUtils');
 
         $totalSize = $objectStoreUtils->byteFormat($totalSize);
-
-        $allData = Input::all();
 
         $senderEmail = "rosdra2@gmail.com";//Input::get('xxxx');
         $recipientEmail = "rosdra@gmail.com"; // TODO parse multiple emails from input
