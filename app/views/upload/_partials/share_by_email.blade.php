@@ -1,5 +1,8 @@
 <form id="fileshare" action="{{ route('files.share') }}" method="POST" enctype="multipart/form-data" accept="*/*">
     <div class="whitebox">
+    @if ($errors->any())
+            {{ implode('', $errors->all('<div>:message</div>')) }}
+    @endif
 
         <div class="share-mail-first-step">
             <div class="inside">
@@ -10,7 +13,7 @@
                         <div class="input-group">
                             <input name="recipient[1]" id="recipient[1]" class="form-control" type="text" placeholder="Enter email address to send files">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-lg btn-default" onclick="addRecipient(this)" style="padding: 7px 5px; font-size: 14px;">
+                                <button type="button" class="btn btn-lg btn-default" onclick="addRecipient(this)" style="padding: 7px 5px; font-size: 14px; border-radius: 0;">
                                     <span class="moreemail">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                                 </button>
                             </span>
@@ -54,7 +57,7 @@
 	<div class="input-group">
         <input name="recipient[{%= o.index %}]" id="recipient[{%= o.index %}]" class="form-control" type="text" placeholder="Enter email address to send files" style="margin-top:3px;">
         <span class="input-group-btn">
-            <button type="button" class="btn btn-lg btn-default" onclick="addRecipient(this)" style="padding: 7px 5px; font-size: 14px; margin-top:3px;">
+            <button type="button" class="btn btn-lg btn-default" onclick="addRecipient(this)" style="padding: 7px 5px; font-size: 14px; margin-top:3px; border-radius: 0;">
                 <span class="moreemail">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             </button>
         </span>
@@ -72,3 +75,4 @@
         $(button).attr('disabled','disabled');
     }
 </script>
+
