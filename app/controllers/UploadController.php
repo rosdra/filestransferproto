@@ -171,7 +171,7 @@ class UploadController extends BaseController {
 
         $totalSize = $objectStoreUtils->byteFormat($totalSize);
 
-        $transferMessage = "testing " . uniqid();
+        $transferMessage = Input::get('message');
 
         $downloadURL = url('/downloadTransfer/'.$transferData->unique_id);
 //        $downloadURL = $_SERVER['SERVER_NAME'] . "/downloadTransfer/" . $transferid . "/" . $transferData->unique_id;
