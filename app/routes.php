@@ -70,11 +70,12 @@ Route::get('/utils',function(){
         //$token = $identity->authenticateAsUser($_ENV['swiftusername'], $_ENV['swiftpassword'], null, $_ENV['swifttenantname']);
 
 
-        echo '<h2>curl_getinfo</h2><pre>';
-        var_dump($info);
-        echo '</pre>';
     echo '<h2>$response</h2><pre>';
     var_dump($response);
+    echo '</pre>';
+
+    echo '<h2>curl version</h2><pre>';
+    var_dump(curl_version());
     echo '</pre>';
 
     echo 'finished';
