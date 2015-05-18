@@ -1,20 +1,12 @@
 $(function () {
     "user strict";
 
-    var $dropzone = $('#dropzone');
+    /*var $dropzone = $('#dropzone');
     $dropzone.addClass("dropzone");
     // render HTML for thumbnail item
     var dropZoneBoxHtml = tmpl("tmpl-ext-dropzone", {});
     $dropzone.append(dropZoneBoxHtml);
-
-    /*$link = $dropzone.find('a');
-    $link.on('click', function () {
-        $('#input-browse').focus().click();
-        return false;
-    });*/
-
-    //$('.btn-upload').attr('disabled', 'disabled');
-
+*/
     window.onbeforeunload = false;
     $(document).bind('drop dragover', function (e) {
         e.preventDefault();
