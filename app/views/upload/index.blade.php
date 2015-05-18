@@ -14,6 +14,7 @@
             <div class="arrow sharing">3. SHARE</div>
         </div>
         <div class="clearfix"></div>
+        <div style="height: 5px;"></div>
         @include('upload._partials.uploader')
     </div>
     <div id="options" class="row">
