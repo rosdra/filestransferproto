@@ -275,6 +275,7 @@ function Upload_Handler() {
             window.onbeforeunload = null;
             // show share
             $('#sharecontainer').show();
+            $('#shareoptionstitle').show();
         }
     };
 

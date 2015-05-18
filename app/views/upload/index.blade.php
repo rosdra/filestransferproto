@@ -21,6 +21,11 @@
         <button type="button" class="btn btn-lg btn-default btn-cancel" style="display: none" ><i class="glyphicon glyphicon-remove"></i> cancel</button>
     </div>
 </div>
+
+<div id="shareoptionstitle" class="col-sm-12 col-md-8 text-center share" style="display: none;">
+    <h3>{{ HTML::image('filestransfer/img/arrow_share_sx.png') }} HOW DO YOU WANT TO SHARE YOUR FILES? {{--{{ HTML::image('filestransfer/img/arrow_share_dx.png') }}--}}</h3>
+</div>
+
 <div id="sharecontainer" class="panel col-md-4 col-sm-4" style="display: none;">
     <div id="sharezone" class="share">
         @include('upload._partials.share_by_email')
