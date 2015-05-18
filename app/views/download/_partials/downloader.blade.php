@@ -5,17 +5,17 @@
 	{{ HTML::script('filestransfer/js/app.download.js') }}
 @append
 
-<div class="box-solid">
+<div class="box-solid download">
     <div id="step-1" class="step-active">
         <form id="filedownload" action="{{ url('/download/'.$transfer->id.'/'.$pid) }}" method="GET" enctype="multipart/form-data" accept="*/*">
             <div class="col-xs-12">
                 <div class="text-center">
-                    <h3>DOWNLOAD FILES...</h3>
-                    <i class="fa fa-cloud-download fa-4x"></i>
+                    <h2>DOWNLOAD FILES...</h2>
+                    <img alt="" src="../filestransfer/img/icon_download.png">
                 </div>
             </div>
             <div class="col-xs-12">
-                <ul class="list-group items-holder">
+                <ul class="list-group download-file-list">
                 @foreach($transfer->files as $transfer_file)
                     <li class="list-group-item">
                        <h6><b>{{$transfer_file->original_name}}</b> ({{$transfer_file->size_readable}})</h6>
@@ -30,7 +30,7 @@
             <!-- Progress bar -->
             <div class="progress-holder">
                 <div class="row">
-                    <h3>DOWNLOADING</h3>
+                    <h2>DOWNLOADING</h2>
                     <div class="col-xs-8 col-xs-offset-2">
                         <div class="progress-label">-- of --</div>
                         <div class="progress">
@@ -47,7 +47,7 @@
     <div id="step-3" style="display:none">
         <div class="col-xs-12">
             <div class="text-center">
-                <h3>FILES DOWNLOADED</h3>
+                <h2>FILES DOWNLOADED</h2>
                 <i class="fa fa-check-square-o fa-4x"></i>
             </div>
         </div>

@@ -1,0 +1,32 @@
+.btn-download{
+    background-image:
+        linear-gradient(
+                #EC822D, #EA732F
+        );
+    box-shadow: 0 1px 0 1px #af5926;
+}
+
+.download-file-list {
+    background: none repeat scroll 0 0 #dedede;
+    font-weight: bold;
+    height: 100px;
+    list-style: outside none none;
+    margin-top: 20px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: 10px 15px 15px;
+    text-align: left;
+}
+.download-file-list li {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    color: #989898;
+}
+.download-file-list li>h6>b{
+    font-size: 14px;
+}
+.first-step{
+    min-height: 360px;
+}

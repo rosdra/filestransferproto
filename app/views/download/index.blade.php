@@ -1,14 +1,19 @@
 @extends('_layouts/blank')
 
+@section('extra-css')
+    {{ HTML::style('filestransfer/css/download.css') }}
+@stop
+
 @section('content')
-<div class="panel text-center col-xs-4 col-sm-4" >
-    <div id="downloadzone" class="row panel-body downloadzone">
+<div class="text-center col-xs-4 col-sm-4" >
+    <div id="downloadzone" class="whitebox">
         @include('download._partials.downloader')
-    </div>
-    <div id="options" class="row">
-        <button type="button" class="btn btn-lg btn-warning btn-download" disabled><i class="glyphicon glyphicon-cloud-download"></i> DOWNLOAD</button>
-        <button type="button" class="btn btn-lg btn-default btn-cancel" style="display: none" ><i class="glyphicon glyphicon-remove"></i> CANCEL</button>
-        <button type="button" class="btn btn-lg btn-default btn-start" style="display: none" ><i class="glyphicon glyphicon-home"></i> START</button>
+
+        <div id="options" class="row">
+            <button type="button" class="btn btn-lg btn-warning btn-download round" disabled>DOWNLOAD</button>
+            <button type="button" class="btn btn-lg btn-default btn-cancel" style="display: none" ><i class="glyphicon glyphicon-remove"></i> CANCEL</button>
+            <button type="button" class="btn btn-lg btn-default btn-start" style="display: none" ><i class="glyphicon glyphicon-home"></i> START</button>
+        </div>
     </div>
 </div>
 @stop

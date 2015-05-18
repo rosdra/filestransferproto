@@ -65,7 +65,7 @@ function DownloadHandler(){
         newStepHolder.addClass("step-active");
 
         if (step == 1) {
-            if ($('.items-holder').length > 0) {
+            if ($('.download-file-list').length > 0) {
                 $('.btn-download').removeAttr('disabled');
             }
         } else if (step == 2) {
