@@ -11,13 +11,13 @@
         <button type="button" class="btn btn-lg btn-default btn-cancel" style="display: none" ><i class="glyphicon glyphicon-remove"></i> cancel</button>
     </div>
 </div>
-<div id="sharecontainer" class="panel text-center col-md-4 col-sm-4" style="display: none">
-    <div id="sharezone" class="panel-body">
+<div id="sharecontainer" class="panel col-md-4 col-sm-4" style="display: none;">
+    <div id="sharezone" class="share">
         @include('upload._partials.share_by_email')
     </div>
     <div id="options" class="row">
-        <button type="button" class="btn btn-lg btn-primary btn-share"><i class="glyphicon glyphicon-envelope"></i> SHARE</button>
-        <button type="button" class="btn btn-lg btn-default btn-share-again" style="display: none"><i class="fa fa-repeat"></i> Share again</button>
+        <button type="button" class="round orange">SHARE</button>
+        <button type="button" class="round grey" style="display: none"><i class="fa fa-repeat"></i> Share again</button>
     </div>
 </div>
 

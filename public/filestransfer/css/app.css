@@ -380,7 +380,7 @@ h2.downloaded {
 /* ------------------------------------------------------------------- SHARE */
 
 .share {
-    display: none;
+    /*display: none;*/
 }
 
 .share h3 {
@@ -406,7 +406,7 @@ h2.downloaded {
 
 .share .inside {
     border: 2px solid #b0b0b0;
-    height: 306px;
+    height: 100%;
     margin: 5px 0 13px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
