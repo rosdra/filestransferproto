@@ -1,6 +1,3 @@
-@section('extra-css')
-	{{ HTML::style('filestransfer/css/app.css') }}
-@append
 @section('extra-js')
 	{{ HTML::script('jquery/plugins/js/fileupload/vendor/jquery.ui.widget.js') }}
 	{{ HTML::script('jquery/plugins/js/jstemplate/tmpl.min.js') }}

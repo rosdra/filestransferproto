@@ -6,6 +6,8 @@
 
 	<hr/>
 	<div class="copyright text-right">
-		Powered by PHP Business Group © 2015
+		<a target="_blank" href="http://www.aruba.it">
+            <img id="arubalogo" alt="Aruba" src="img/logo_aruba.png">
+        </a>
 	</div>
 @show

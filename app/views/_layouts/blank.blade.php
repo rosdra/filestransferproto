@@ -7,12 +7,12 @@
 	<body class="full">
 	  	@yield('main scripts')
 	  		  	
-		<div class="container-fluid">
-			<header class="row-fluid">
+		<div class="container">
+			<header class="row">
 				@include('_includes.header')
 			</header>
 		
-			<div id="main" class="row row-fluid">
+			<div id="main" class="row first-step">
                 @yield('content')
 			</div>
 		
