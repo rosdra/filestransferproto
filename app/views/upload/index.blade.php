@@ -16,8 +16,8 @@
         @include('upload._partials.share_by_email')
     </div>
     <div id="options" class="row">
-        <button type="button" class="round orange">SHARE</button>
-        <button type="button" class="round grey" style="display: none"><i class="fa fa-repeat"></i> Share again</button>
+        <button type="button" class="round orange btn-share">SHARE</button>
+        <button type="button" class="round grey btn-share-again" style="display: none"><i class="fa fa-repeat"></i> Share again</button>
     </div>
 </div>
 
