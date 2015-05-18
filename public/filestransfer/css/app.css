@@ -1,3 +1,747 @@
+/*
+	General Stylesheet for layout and typography
+
+	Site: download.it
+	Initial Build: 05.2015
+	Author: Francesco Prosperi - | blank | www.loveblank.com
+	Version: 0.9
+
+*/
+
+/* ------------------------------------------------------------------- MAIN & RESET */
+
+*:focus {
+    outline: none;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background: transparent;
+    padding-top: 150px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Lato', sans-serif;
+}
+
+.full {
+    background: url('../img/background.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#arubalogo {
+    float: right;
+    margin: 25px 30px 25px 30px;
+    z-index: 1;
+}
+
+
+
+/* ------------------------------------------------------------------- NAVIGATION */
+
+.navbar-default {
+    border-bottom: 5px solid #bebebe;
+    overflow: visible;
+}
+
+.navbar-brand {
+    padding: 8px 15px 0 15px;
+}
+
+.navbar-nav .glyphicon {
+    margin-right: 8px;
+}
+
+.navbar-nav li.dark {
+    background: url(../img/button_dark.png) repeat-x;
+    height: 59px;
+    -webkit-border-bottom-left-radius: 4px;
+    -moz-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    -moz-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom: 2px solid #af5926;
+    border-right: 1px solid #af5926;
+    border-left: 1px solid #af5926;
+}
+
+.navbar-nav li.dark a {
+    color: #b1b1b1;
+    padding-top: 9px;
+    font-size: 15px;
+    background: url(../img/arrow_empty.png) no-repeat 10px center;
+    display: block;
+    padding-left: 40px;
+}
+
+.navbar-nav li.dark a:hover, .navbar-nav li.dark a:active {
+    color: #fff;
+}
+
+.navbar-nav li.dark a .white {
+    color: #f1f1f1;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+
+
+/* ------------------------------------------------------------------- BOXES */
+
+.whitebox {
+    background: #f1f1f1;
+    width: 100%;
+    padding: 13px 17px 5px;
+    height: auto;
+    margin-bottom: 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.whitebox a {
+    color: #5c769a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.arrow-container {
+    width: 33.33333333333333%;
+    float: left;
+}
+
+.arrow {
+    height: 26px;
+    border: 0;
+    background: url(../img/arrow_grey.png) no-repeat right center;
+    position: relative;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 26px;
+    padding-left: 15px;
+}
+
+.arrow.active {
+    background: url(../img/arrow_orange.png) no-repeat right center;
+}
+
+.arrow.select {
+    z-index: 10;
+}
+
+.arrow.upload {
+    z-index: 9;
+    margin-left: -10px;
+    padding-left: 20px;
+}
+
+.arrow.sharing {
+    z-index: 8;
+    margin-left: -20px;
+    padding-left: 30px;
+}
+
+.drop {
+    height: 332px;
+    margin: 15px 0 11px;
+    border: 2px dashed #b0b0b0;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 20px 20px 0px 20px;
+    color: #989898;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+.drop h2 {
+    font-size: 26px;
+    font-weight: normal;
+    color: #7d7d7d;
+    letter-spacing: -1px;
+}
+
+.drop p {
+    margin-top: 50px;
+}
+
+.download {
+    height: 332px;
+    margin: 5px 0 11px;
+    border: 2px solid #b0b0b0;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 20px 20px 0px 20px;
+    color: #989898;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+.download h2 {
+    font-size: 26px;
+    font-weight: normal;
+    color: #7d7d7d;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+}
+
+#previews {
+    background: url(../img/plus.png) no-repeat center 20px;
+    height: 80px;
+    overflow: scroll;
+}
+
+#previews.on, #file-list {
+    background: #dedede;
+    text-align: left;
+}
+
+#previews .filesize, #file-list .filesize {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+#file-list {
+    list-style: none;
+    margin-top: 20px;
+    padding: 10px 15px 15px;
+    height: 100px;
+    font-weight: bold;
+    overflow: scroll;
+}
+
+.dz-size strong {
+    font-weight: normal;
+}
+
+.dz-details {
+    text-align: left;
+    padding: 0 5px;
+    font-size: 14px;
+}
+
+.dz-success-mark {
+    float: right;
+    display: none;
+    color: #77a626;
+}
+
+.dz-success .dz-success-mark {
+    display: block;
+}
+
+#total-progress {
+    transition: opacity 0.3s linear;
+}
+
+#fileupload-start {
+
+}
+
+#fileupload-sending {
+    display: none;
+}
+
+#fileupload-finished {
+    display: none;
+}
+
+.downloadlink {
+    color: #5c769a;
+    display: block;
+    text-align: center;
+    padding: 15px;
+    background-color: #d4d4d4;
+    margin-top: 1px;
+}
+
+.downloadlink .glyphicon {
+    color: #ea7234;
+}
+
+.progress {
+    margin: 40px 0 20px;
+}
+
+body .progress-bar-warning {
+    background-color: #ea7234;
+}
+
+#percent {
+    font-size: 26px;
+    font-weight: 900;
+}
+
+h2.downloaded {
+    margin-top: 80px;
+}
+
+#filedownload-finished p {
+    margin-top: 50px;
+}
+
+
+
+/* ------------------------------------------------------------------- STEPS */
+
+.first-step {
+    background: url(../img/banner1.png) no-repeat right center;
+}
+
+.first-step #cancelupload,
+.first-step #canceldownload,
+.first-step #filedownload-progress,
+.first-step #startagaindownload,
+.first-step #filedownload-finished {
+    display: none;
+}
+
+.second-step {
+    background: url(../img/banner1.png) no-repeat right center;
+}
+
+.second-step #cancelupload,
+.second-step #fileupload-sending,
+.second-step #canceldownload,
+.second-step #filedownload-progress  {
+    display: block;
+}
+
+.second-step #startupload,
+.second-step #fileupload-start,
+.second-step #filedownload-start,
+.second-step #startdownload,
+.second-step #startagaindownload,
+.second-step #filedownload-finished {
+    display: none;
+}
+
+
+.third-step {
+    background: none;
+}
+
+.third-step #fileupload-sending,
+.third-step .banner,
+.third-step #fileupload-first,
+.third-step #startupload,
+.third-step #filedownload-start,
+.third-step #filedownload-progress,
+.third-step #canceldownload,
+.third-step #startdownload {
+    display: none;
+}
+
+.third-step #fileupload-start,
+.third-step #fileupload-finished,
+.third-step .share {
+    display: block;
+}
+
+.third-step .drop {
+    border-style: solid;
+}
+
+.third-step .drop #previews {
+    background: none;
+}
+
+.third-step .drop #previews .dz-details {
+    border-bottom: 1px solid #cdcdcd;
+}
+
+.third-step.downloadfiles {
+    background: url(../img/banner1.png) no-repeat right center;
+}
+
+.third-step.downloadfiles .banner {
+    display: block;
+}
+
+
+
+/* ------------------------------------------------------------------- SHARE */
+
+.share {
+    display: none;
+}
+
+.share h3 {
+    font-size: 26px;
+    color: #f1f1f1;
+}
+
+.share h4 {
+    color: #ec6533;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    border-bottom: 1px solid #cdcdcd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.share h4 .glyphicon {
+    color: #bebebe;
+    float: right;
+    line-height: 15px;
+}
+
+.share .inside {
+    border: 2px solid #b0b0b0;
+    height: 306px;
+    margin: 5px 0 13px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 20px 20px 0px 20px;
+    color: #848484;
+    font-size: 14px;
+    letter-spacing: -0.02em;
+}
+
+.share .inside.textmessage {
+    height: 144px;
+}
+
+.share .inside.social {
+    height: 203px;
+    font-size: 12px;
+    font-weight: 300;
+    font-family: 'Oswald', sans-serif;
+}
+
+.share .inside.social a {
+    width: 136px;
+    margin-bottom: 14px;
+    float: left;
+    border: none;
+    background: #000;
+    color: #fff;
+    line-height: 38px;
+    height: 38px;
+    padding-left: 43px;
+    padding-right: 5px;
+}
+
+.share .inside.social a.facebook {
+    background: url(../img/social_fb.png) no-repeat left center #006eb1;
+}
+.share .inside.social a.twitter {
+    background: url(../img/social_tw.png) no-repeat left center #00b7eb;
+    float: right;
+}
+.share .inside.social a.google {
+    background: url(../img/social_gp.png) no-repeat left center #ce452b;
+}
+.share .inside.social a.linkedin {
+    background: url(../img/social_li.png) no-repeat left center #005f89;
+    float: right;
+}
+
+.share .form-group {
+    margin-bottom: 10px;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #605f5f;
+    font-style: italic;
+}
+
+.form-control:-moz-placeholder {
+    color: #605f5f;
+    font-style: italic;
+}
+
+.form-control::-moz-placeholder {
+    color: #605f5f;
+    font-style: italic;
+}
+
+.form-control:-ms-input-placeholder {
+    color: #605f5f;
+    font-style: italic;
+}
+
+.share #to-email {
+    background: url(../img/icon_plus.png) no-repeat right center;
+}
+
+.share input, .share textarea {
+    border-radius: 0;
+    background: #f1f1f1;
+    border-color: #b0b0b0;
+}
+
+.share textarea {
+    height: 110px;
+}
+
+.share-mail-second-step {
+    text-align: center;
+    display: none;
+}
+
+.share-mail-second-step h2 {
+    font-size: 24px;
+    margin: 30px 0 0;
+}
+
+.share-mail-second-step p {
+    margin-top: 70px;
+}
+
+.share-mail-second-step .inside {
+    padding-top: 46px;
+}
+
+
+
+/* ------------------------------------------------------------------- BANNER */
+
+.banner {
+    color: #fff;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 10px;
+    z-index: 0;
+    margin-bottom: 40px;
+}
+
+.banner h1 {
+    font-size: 34px;
+    font-weight: 300;
+    padding-top: 60px;
+    margin-bottom: 15px;
+    max-width: 400px;
+}
+
+.banner h1 strong {
+    font-weight: 400;
+}
+
+.banner h2 {
+    font-size: 51px;
+    font-weight: 900;
+    margin: 0 0 22px 0;
+}
+
+.banner h2 .sup {
+    font-size: 11px;
+    font-weight: 300;
+    vertical-align: top;
+    line-height: 26px;
+}
+
+
+
+/* ------------------------------------------------------------------- BUTTONS */
+
+button.round {
+    font-size: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 0;
+    width: 128px;
+    height: 44px;
+    display: block;
+    margin: 10px auto;
+}
+
+button.round:disabled {
+    opacity: .5;
+}
+
+button.round.grey {
+    color: #605f5f;
+    background: url(../img/button_grey.png) repeat-x;
+    -webkit-box-shadow: 0px 1px 0px 1px rgba(190,190,190,1);
+    -moz-box-shadow: 0px 1px 0px 1px rgba(190,190,190,1);
+    box-shadow: 0px 1px 0px 1px rgba(190,190,190,1);
+}
+
+button.round.orange {
+    color: #fff;
+    background: url(../img/button_orange.png) repeat-x;
+    -webkit-box-shadow: 0px 1px 0px 1px #af5926;
+    -moz-box-shadow: 0px 1px 0px 1px #af5926;
+    box-shadow: 0px 1px 0px 1px #af5926;
+}
+
+button.round:active {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-top :1px solid #f1f1f1;
+}
+
+button.round.small {
+    float: right;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    height: 32px;
+    width: 28%;
+    margin: 0;
+}
+
+#to-phone {width: 70%; float: left;}
+
+button.square {
+    background: #fff;
+    border: 1px solid #d6c2ba;
+    padding: 20px;
+    color: #fa3d00;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+button.square:active {
+    background: #fa3d00;
+    color: #fff;
+}
+
+
+
+/* ------------------------------------------------------------------- MEDIA QUERIES */
+
+@media (max-width: 1199px) {
+
+    .banner h1 {
+        max-width: 100%;
+    }
+
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    .drop h2 {
+        font-size: 20px;
+    }
+
+    .drop p {
+        margin-top: 20px;
+    }
+
+    .arrow {
+        padding-left: 8px;
+    }
+
+    .arrow.upload {
+        padding-left: 13px;
+    }
+    .arrow.share {
+        padding-left: 25px;
+    }
+
+    #main {
+        background-position: right bottom;
+    }
+
+    .banner h1 {
+        padding-top: 0px;
+    }
+
+    .share h3 {
+        font-size: 22px;
+    }
+
+    .share .inside.social a {
+        width: 50%;
+        font-size: 8px;
+    }
+
+    #file-list {
+        height: 74px;
+    }
+
+    h2.downloaded {
+        margin-top: 10px;
+    }
+
+    .share-mail-second-step p {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 991px) {
+
+    #main {
+        background: none;
+    }
+
+    .banner {
+        text-align: center;
+    }
+
+    .banner h1 {
+        padding-top: 20px;
+    }
+
+    .share .inside.social {
+        height: auto;
+    }
+
+    .share .inside.social a {
+        width: 100%;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 767px) {
+    body {
+        padding-top: 80px;
+    }
+
+    .navbar-nav li.dark {
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        border: 0;
+    }
+
+    .share h3 {
+        font-size: 20px;
+    }
+
+    .share h3 img {
+        display: none;
+    }
+
+    .drop, .download, .share .inside {
+        height: auto;
+    }
+
+    .drop {
+        padding-bottom: 20px;
+    }
+
+}
+
+@media (min-width: 768px) {
+    .navbar-default {
+        height: 50px;
+    }
+}
+/* End Styles Download.it*/
 .thin-font {
     font-family: "Lato",Calibri,Arial,sans-serif;
     font-weight: 300;

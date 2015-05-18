@@ -4,10 +4,10 @@
 		@include('_includes.title')
 		@yield('extra-css')
 	</head>
-	<body>  
+	<body class="full">
 	  	@yield('main scripts')
 	  		  	
-		<div class="container-fluid bg-warning">
+		<div class="container-fluid">
 			<header class="row-fluid">
 				@include('_includes.header')
 			</header>
