@@ -882,8 +882,8 @@ textarea[name="photo[description]"] {
     width: auto;
     z-index: 2;
 }
-.no-overlapping {    
-    position: inherit;    
+.no-overlapping {
+    position: inherit;
 }
 .navbar-toggle {
     margin: 8px 15px;
@@ -897,7 +897,7 @@ textarea[name="photo[description]"] {
 .dropzone {
     line-height: 25px;
     text-align: center;
-    font-weight: bold;    
+    font-weight: bold;
 }
 .dropzone .addmore {
 	display: inline-block;

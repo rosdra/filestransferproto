@@ -1,28 +1,24 @@
 @section("header")
- 
-    <!-- Navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
+ 	<!-- Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                {{ HTML::link('/', 'Files Transfer',null, array('class' => 'navbar-brand')) }}
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href=""><img src="filestransfer/img/logo_download_it.png" alt="logo download.it" width="176" height="29"></a>
             </div>
-            <!-- Everything you want hidden at 940px or less, place within here -->
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    @if ( Auth::guest() )
-                    @else
-                    @endif
-                </ul>
-            </div>
-        </div>
-    </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class="dark"><a href="#"> Upgrade to<br><span class="white">PROFESSIONAL</span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Accedi / Registrati</a></li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+    </nav>
 @show
 
 
