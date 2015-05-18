@@ -71,7 +71,7 @@ Route::get('/utils',function(){
 
 
     echo '<h2>$response</h2><pre>';
-    var_dump($response);
+    var_dump(\GuzzleHttp\json_decode($response));
     echo '</pre>';
 
     echo '<h2>curl version</h2><pre>';

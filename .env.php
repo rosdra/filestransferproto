@@ -13,5 +13,6 @@ return array(
     'swifttenantname' => 'admin',
 
     'fileexpirationdays' => 5,
+    'tempfileexpirationhours' => 24,
     'emailsenabled'      => true
 );
