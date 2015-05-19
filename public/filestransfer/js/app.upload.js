@@ -192,10 +192,10 @@ function Upload_Handler() {
             // share
             $.get(url, data)
                 .always(function (response) {
-                    $('#share-mail-step-1').hide();
+                    $('.share-mail-step-1').hide();
                     $('.btn-share').hide();
 
-                    $('#share-mail-step-2').show();
+                    $('.share-mail-step-2').show();
                     $('.btn-share-again').show();
                 })
                 .fail(function (response) {
@@ -204,10 +204,10 @@ function Upload_Handler() {
         });
 
         $('.btn-share-again').on('click', function (e) {
-            $('#share-mail-step-1').show();
+            $('.share-mail-step-1').show();
             $('.btn-share').show();
 
-            $('#share-mail-step-2').hide();
+            $('.share-mail-step-2').hide();
             $('.btn-share-again').hide();
         });
     };
