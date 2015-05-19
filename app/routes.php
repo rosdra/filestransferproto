@@ -81,3 +81,7 @@ Route::get('/utils',function(){
     echo 'finished';
 });
 
+Route::get('/files',function() {
+    phpinfo();
+});
+
