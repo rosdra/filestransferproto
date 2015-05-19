@@ -109,28 +109,27 @@ class DownloadController extends BaseController {
         }
         $progressFileName = static::$STORE_FOLDER . $pid.".txt";
         $progressFileName = public_path($progressFileName);
-
+        clearstatcache();
         if(file_exists($progressFileName)) {
-            $fp = fopen($progressFileName, 'r');
-            $contents = fread($fp, filesize($progressFileName));
-            fclose($fp);
-            return \Response::json(json_decode($contents));
+            if(filesize($progressFileName) > 0) {
+                $fp = fopen($progressFileName, 'r');
+                $contents = fread($fp, filesize($progressFileName));
+                fclose($fp);
+                return \Response::json(json_decode($contents));
+            }
         }
-        else {
+        $array = [
+            "progress" => 0 ,
+            "downloaded" => 0,
+            "total" => 0,
+            "finished" => false
+        ];
+        $content = json_encode($array);
+        $fp = fopen( $progressFileName, 'w' );
+        fwrite( $fp, $content);
+        fclose( $fp );
 
-            $array = [
-                "progress" => 0 ,
-                "downloaded" => 0,
-                "total" => 0,
-                "finished" => false
-            ];
-            $content = json_encode($array);
-            $fp = fopen( $progressFileName, 'w' );
-            fwrite( $fp, $content);
-            fclose( $fp );
-
-            return \Response::json($array);
-        }
+        return \Response::json($array);
     }
 
 

@@ -245,7 +245,14 @@ class ObjectStoreUtils
 
             $me = $this;
             curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, function ($resource, $download_size, $downloaded_size) use ($me, $progressFileName) {
-                $me->progressCallback($resource, $download_size, $downloaded_size, $me, $progressFileName);
+                try {
+                    if (get_resource_type($resource) == null) // this is a hack because a curl version problem
+                        $me->progressCallback(null, $resource, $download_size, $me, $progressFileName);
+                    else
+                        $me->progressCallback($resource, $download_size, $downloaded_size, $me, $progressFileName);
+                }catch(Exception $ex){
+                    $me->progressCallback(null, $resource, $download_size, $me, $progressFileName);
+                }
             });
             curl_setopt($ch, CURLOPT_FILE, $targetFile);
             $res = curl_exec($ch);
