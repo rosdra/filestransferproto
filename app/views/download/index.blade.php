@@ -11,8 +11,8 @@
 
         <div id="options" class="row">
             <button type="button" class="btn btn-lg btn-warning btn-download round" disabled>DOWNLOAD</button>
-            <button type="button" class="btn btn-lg btn-default btn-cancel" style="display: none" ><i class="glyphicon glyphicon-remove"></i> CANCEL</button>
-            <button type="button" class="btn btn-lg btn-default btn-start" style="display: none" ><i class="glyphicon glyphicon-home"></i> START</button>
+            <button type="button" class="btn btn-lg btn-default btn-cancel" style="display: none" >CANCEL</button>
+            <button type="button" class="btn btn-lg btn-default btn-start" style="display: none" >START</button>
         </div>
     </div>
 </div>

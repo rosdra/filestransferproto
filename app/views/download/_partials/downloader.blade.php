@@ -18,7 +18,13 @@
                 <ul class="list-group download-file-list">
                 @foreach($transfer->files as $transfer_file)
                     <li class="list-group-item">
-                       <h6><b>{{$transfer_file->original_name}}</b> ({{$transfer_file->size_readable}})</h6>
+                       <h6><b>
+                               @if(strlen($transfer_file->original_name) > 30)
+                                   {{substr($transfer_file->original_name,0,27)."..."}}
+                               @else
+                                   {{$transfer_file->original_name}}
+                               @endif
+                           </b> ({{$transfer_file->size_readable}})</h6>
                     </li>
                 @endforeach
                 </ul>
@@ -47,11 +53,11 @@
     <div id="step-3" style="display:none">
         <div class="col-xs-12">
             <div class="text-center">
-                <h2>FILES DOWNLOADED</h2>
-                <i class="fa fa-check-square-o fa-4x"></i>
+                <h2 class="downloaded">FILES DOWNLOADED</h2>
+                {{ HTML::image('filestransfer/img/icon_done.png') }}
             </div>
         </div>
-        <div class="col-xs-12">
+        <div class="col-xs-12 download-final-message">
             <h5>
                 Like it? Start yourself using Download.it<br/>
                 If you need more, <a href="#">upgrade to Professional</a>
