@@ -11,7 +11,7 @@
             <div class="col-xs-12">
                 <div class="text-center">
                     <h2>DOWNLOAD FILES...</h2>
-                    <img alt="" src="../filestransfer/img/icon_download.png">
+                    {{ HTML::image('filestransfer/img/icon_download.png') }}
                 </div>
             </div>
             <div class="col-xs-12">
