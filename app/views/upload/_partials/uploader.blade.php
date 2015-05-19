@@ -19,7 +19,6 @@
     </form>
 </div>
 
-<div id="sharespacer" style="height: 61px;"></div>
 <div class="whitebox">
     <div class="arrow-container">
         <div class="arrow select active">1. SELECT</div>

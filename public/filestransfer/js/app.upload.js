@@ -85,25 +85,14 @@ function Upload_Handler() {
             },
 
             submit: function (e, data) {
-               /* if($('#file-' + data.context).length != 0) { //dont send removed items
-                    var additionData = $('#file-' + data.context + ' form').serializeArray();
-                    data.formData = additionData;
-                    return true;
-                } else {
-                    return false;
-                }*/
                 return true;
             },
             success: function (e, data) {
                 if (e == 'failed') {
                      alertify.alert('upload failed')
                 }else{
-                    console.log(data);
-                    console.log(e);
                     console.log('upload was successful');
-
                     transferId = e.transfer_id;
-                    console.log('transferId: ' + transferId);
                 }
             },
 
@@ -120,21 +109,18 @@ function Upload_Handler() {
             },
 
             stop: function (e) {
-                redirectProgress('Finished.');
-                window.onbeforeunload = false;
-                /*window.setTimeout(function () {
-                    redirectProgress(av_limit.text.upload_completed);
+                redirectProgress('Completing...');
+                setTimeout(function () {
+                    redirectProgress('Completed');
                 }, 1000);
-				window.setTimeout(function(){
-					window.location.href = av_limit.redirect_url;
-				}, 2000);*/
+                hideProgress();
+
+                window.onbeforeunload = false;
 
                 currentStep = 3;
                 window.setTimeout(function(){
                     setupDropZone(currentStep);
                 }, 1000);
-
-                hideProgress();
             }
         });
 
@@ -184,6 +170,8 @@ function Upload_Handler() {
             for (i in filesToUpload) {
                 filesToUpload[i].submit();
             }
+
+            showProgress(0, 0, -1);
 
             setupDropZone(currentStep);
         });
@@ -260,15 +248,14 @@ function Upload_Handler() {
                 // prevent closing page
                 setConfirmClosePage();
             }
-            $('#sharespacer').hide();
             // active header step
             $(".arrow").removeClass("active");
             $(".arrow.select").addClass("active");
+            $("#bannercontainer").show();
 
         }else if(step == 2){
             $('.btn-upload').hide();
             $('.btn-cancel').show();
-            $('#sharespacer').hide();
             // active header step
             $(".arrow").removeClass("active");
             $(".arrow.upload").addClass("active");
@@ -281,10 +268,11 @@ function Upload_Handler() {
             // show share
             $('#sharecontainer').show();
             $('#shareoptionstitle').show();
-            $('#sharespacer').show();
             // active header step
             $(".arrow").removeClass("active");
             $(".arrow.sharing").addClass("active");
+
+            $("#bannercontainer").hide();
         }
     };
 
