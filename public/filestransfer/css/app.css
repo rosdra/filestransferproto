@@ -511,7 +511,11 @@ h2.downloaded {
 .share-mail-second-step .inside {
     padding-top: 46px;
 }
-
+.vbottom {
+    display: inline-block;
+    vertical-align: bottom;
+    float: none;
+}
 
 
 /* ------------------------------------------------------------------- BANNER */

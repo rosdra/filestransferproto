@@ -116,6 +116,11 @@ function DownloadHandler(){
 
     var showProgress = function (rate, loaded, total) {
         var $p = $('.progress-holder');
+        var current_rate = parseInt($p.find('.progress-rate').text());
+
+        if(rate < current_rate)
+            return;
+
         if (!$p.is(':visible')) $p.show();
         $p.find('.progress-label').text(getFileSizeReadable(loaded) + ' of ' + getFileSizeReadable(total) + ' completed');
         $p.find('.progress-bar').css('width', rate + '%');
