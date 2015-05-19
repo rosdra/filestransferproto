@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href=""><img src="{{url('filestransfer/img/logo_download_it.png')}}" alt="logo download.it" width="176" height="29"></a>
+              <a class="navbar-brand" href="">{{ HTML::image('filestransfer/img/logo_download_it.png') }}</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav navbar-right">

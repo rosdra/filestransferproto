@@ -1,8 +1,8 @@
-<form id="fileshare" action="{{ route('files.share') }}" method="POST" enctype="multipart/form-data" accept="*/*">
-    <div class="whitebox">
-    @if ($errors->any())
-            {{ implode('', $errors->all('<div>:message</div>')) }}
-    @endif
+ <div id="sharezone" class="share whitebox">
+    <form id="fileshare" action="{{ route('files.share') }}" method="POST" enctype="multipart/form-data" accept="*/*">
+        @if ($errors->any())
+                {{ implode('', $errors->all('<div>:message</div>')) }}
+        @endif
 
         <div class="share-mail-first-step">
             <div class="inside">
@@ -33,8 +33,6 @@
                 </div>
 
             </div>
-
-            {{--<button class="round orange" id="sharewithmail">SHARE</button>--}}
         </div>
 
         <div class="share-mail-second-step">
@@ -46,12 +44,13 @@
                 <p>Maximum upload single size files: 10 GB<br>
                 Need more? <a href="#">Upgrade to Professional</a></p>
             </div>
-
-            {{--<button class="round grey">Share again</button>--}}
         </div>
-
+    </form>
+    <div id="options" class="row">
+        <button type="button" class="round orange btn-share">SHARE</button>
+        <button type="button" class="round grey btn-share-again" style="display: none"><i class="fa fa-repeat"></i> Share again</button>
     </div>
-</form>
+</div>
 
 <script type="text/x-tmpl" id="tmpl-new-recipient">
 	<div class="input-group">

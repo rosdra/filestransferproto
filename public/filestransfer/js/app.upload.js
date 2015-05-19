@@ -260,6 +260,7 @@ function Upload_Handler() {
                 // prevent closing page
                 setConfirmClosePage();
             }
+            $('#sharespacer').hide();
             // active header step
             $(".arrow").removeClass("active");
             $(".arrow.select").addClass("active");
@@ -267,6 +268,7 @@ function Upload_Handler() {
         }else if(step == 2){
             $('.btn-upload').hide();
             $('.btn-cancel').show();
+            $('#sharespacer').hide();
             // active header step
             $(".arrow").removeClass("active");
             $(".arrow.upload").addClass("active");
@@ -279,6 +281,7 @@ function Upload_Handler() {
             // show share
             $('#sharecontainer').show();
             $('#shareoptionstitle').show();
+            $('#sharespacer').show();
             // active header step
             $(".arrow").removeClass("active");
             $(".arrow.sharing").addClass("active");
