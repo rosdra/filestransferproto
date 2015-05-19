@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-<div class="text-center col-xs-4 col-sm-4" >
+<div class="text-center col-sm-4 col-xs-12" >
     <div id="downloadzone" class="whitebox">
         @include('download._partials.downloader')
 
