@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div class="share-mail-step-2">
+        <div class="share-mail-step-2" style="display: none">
             <div class="inside">
                 {{ HTML::image('filestransfer/img/icon_done_mail.png') }}
                 <h2>FILES SHARED!</h2>
