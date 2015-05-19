@@ -148,62 +148,80 @@ class UploadController extends BaseController {
     public function transferemail() {
         $allData = Input::all();
 
-        $senderEmail = Input::get('sender');
-        $recipientEmailList = Input::get('recipient');
-//        $recipientEmailList = array_values($recipientEmailList);
-        $transferid = Input::get('transfer_id');
+        $rules = array(
+            'from-email' => 'Required|Between:3,64|Email',
+            'recipient'  => 'Required',
+        );
 
-        $transferData = $this->transfer->find($transferid);
-        $fileExpirationDays = $_ENV["fileexpirationdays"];
-        $srtToAddDays = " + " . $fileExpirationDays . " day";
-        $expirationDate = date('j M, Y', strtotime($transferData->created_at . $srtToAddDays));
+        $v = Validator::make($allData, $rules);
+        if( $v->passes() ) {
+            $senderEmail = Input::get('sender');
+            $recipientEmailList = Input::get('recipient');
+    //        $recipientEmailList = array_values($recipientEmailList);
+            $transferid = Input::get('transfer_id');
 
-        $transferFiles = $transferData->files;
+            $transferData = $this->transfer->find($transferid);
+            $fileExpirationDays = $_ENV["fileexpirationdays"];
+            $srtToAddDays = " + " . $fileExpirationDays . " day";
+            $expirationDate = date('j M, Y', strtotime($transferData->created_at . $srtToAddDays));
 
-        $totalSize = 0;
-        $fileNames = "";
-        foreach($transferFiles as $transferFile) {
-            $totalSize += $transferFile->size;
-            $fileNames .= $transferFile->original_name . "<br>";
+            $transferFiles = $transferData->files;
+
+            $totalSize = 0;
+            $fileNames = "";
+            foreach($transferFiles as $transferFile) {
+                $totalSize += $transferFile->size;
+                $fileNames .= $transferFile->original_name . "<br>";
+            }
+
+            $objectStoreUtils = Session::get('objectStoreUtils');
+
+            $totalSize = $objectStoreUtils->byteFormat($totalSize);
+
+            $transferMessage = Input::get('message');
+
+            $downloadURL = url('/downloadTransfer/'.$transferData->unique_id);
+    //        $downloadURL = $_SERVER['SERVER_NAME'] . "/downloadTransfer/" . $transferid . "/" . $transferData->unique_id;
+
+            $recipientEmailListString = implode(';', $recipientEmailList);
+            $data = [
+                'expirationDate'  => $expirationDate,
+                'totalSize'       => $totalSize,
+                'fileNames'       => $fileNames,
+                'senderEmail'     => $senderEmail,
+                'recipientEmail'  => $recipientEmailListString,
+                'transferMessage' => $transferMessage,
+                'downloadURL'     => $downloadURL,
+            ];
+
+
+            if ($_ENV["emailsenabled"]) {
+                Mail::send('emails.recipientConfirmation', $data, function ($message) use ($recipientEmailList, $senderEmail) {
+                    $message->to($recipientEmailList, $recipientEmailList)->subject($senderEmail . " has sent you a file");
+                });
+
+                Mail::send('emails.senderConfirmation', $data, function ($message) use ($recipientEmailList, $senderEmail, $recipientEmailListString) {
+                    $message->to($senderEmail, $senderEmail)->subject("Thank you - file sent to " . $recipientEmailListString);
+                });
+            }
+
+            // Save emails related to this transfer
+            $transferData->sender_email = $senderEmail;
+            $transferData->recipient_email = $recipientEmailListString;
+            $transferData->message = $transferMessage;
+            $transferData->save();
+
+            return Redirect::to('/')->with('message', 'Thank you!');
+        } else {
+            $errors = $v->messages();
+
+            return Redirect::back()->withErrors($v);
+
+            /*if ( ! empty( $errors ) ) {
+                foreach ( $errors->all() as $error ) {
+
+                }
+            }*/
         }
-
-        $objectStoreUtils = Session::get('objectStoreUtils');
-
-        $totalSize = $objectStoreUtils->byteFormat($totalSize);
-
-        $transferMessage = Input::get('message');
-
-        $downloadURL = url('/downloadTransfer/'.$transferData->unique_id);
-//        $downloadURL = $_SERVER['SERVER_NAME'] . "/downloadTransfer/" . $transferid . "/" . $transferData->unique_id;
-
-        $recipientEmailListString = implode(';', $recipientEmailList);
-        $data = [
-            'expirationDate'  => $expirationDate,
-            'totalSize'       => $totalSize,
-            'fileNames'       => $fileNames,
-            'senderEmail'     => $senderEmail,
-            'recipientEmail'  => $recipientEmailListString,
-            'transferMessage' => $transferMessage,
-            'downloadURL'     => $downloadURL,
-        ];
-
-
-        if ($_ENV["emailsenabled"]) {
-            Mail::send('emails.recipientConfirmation', $data, function ($message) use ($recipientEmailList, $senderEmail) {
-                $message->to($recipientEmailList, $recipientEmailList)->subject($senderEmail . " has sent you a file");
-            });
-
-            Mail::send('emails.senderConfirmation', $data, function ($message) use ($recipientEmailList, $senderEmail, $recipientEmailListString) {
-                $message->to($senderEmail, $senderEmail)->subject("Thank you - file sent to " . $recipientEmailListString);
-            });
-        }
-
-        // Save emails related to this transfer
-        $transferData->sender_email = $senderEmail;
-        $transferData->recipient_email = $recipientEmailListString;
-        $transferData->message = $transferMessage;
-        $transferData->save();
-
-        return Redirect::to('/')->with('message', 'Thank you!');
     }
 }
