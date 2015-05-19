@@ -4,7 +4,7 @@
                 {{ implode('', $errors->all('<div>:message</div>')) }}
         @endif
 
-        <div class="share-mail-first-step">
+        <div class="share-mail-step-1">
             <div class="inside">
                 <h4>SHARE WITH EMAIL <span class="glyphicon glyphicon-envelope"></span></h4>
 
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div class="share-mail-second-step">
+        <div class="share-mail-step-2">
             <div class="inside">
                 {{ HTML::image('filestransfer/img/icon_done_mail.png') }}
                 <h2>FILES SHARED!</h2>

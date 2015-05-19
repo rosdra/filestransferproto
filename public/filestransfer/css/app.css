@@ -494,21 +494,21 @@ h2.downloaded {
     height: 90px;
 }
 
-.share-mail-second-step {
+.share-mail-step-2 {
     text-align: center;
     display: none;
 }
 
-.share-mail-second-step h2 {
+.share-mail-step-2 h2 {
     font-size: 24px;
     margin: 30px 0 0;
 }
 
-.share-mail-second-step p {
+.share-mail-step-2 p {
     margin-top: 70px;
 }
 
-.share-mail-second-step .inside {
+.share-mail-step-2 .inside {
     padding-top: 46px;
 }
 .vbottom {
@@ -681,7 +681,7 @@ button.square:active {
         margin-top: 10px;
     }
 
-    .share-mail-second-step p {
+    .share-mail-step-2 p {
         margin-top: 15px;
     }
 }
