@@ -148,16 +148,11 @@ class UploadController extends BaseController {
     public function transferemail() {
         $allData = Input::all();
 
-        $rules = array(
-            'from-email' => 'Required|Between:3,64|Email',
-            'recipient'  => 'Required',
-        );
+        $senderEmail = Input::get('from-email');
+        $recipientEmailList = Input::get('recipient');
 
-        $v = Validator::make($allData, $rules);
-        if( $v->passes() ) {
-            $senderEmail = Input::get('sender');
-            $recipientEmailList = Input::get('recipient');
-    //        $recipientEmailList = array_values($recipientEmailList);
+        if(!empty($senderEmail) && count($recipientEmailList) > 0 && filter_var($senderEmail, FILTER_VALIDATE_EMAIL)) {
+            //        $recipientEmailList = array_values($recipientEmailList);
             $transferid = Input::get('transfer_id');
 
             $transferData = $this->transfer->find($transferid);
@@ -169,7 +164,7 @@ class UploadController extends BaseController {
 
             $totalSize = 0;
             $fileNames = "";
-            foreach($transferFiles as $transferFile) {
+            foreach ($transferFiles as $transferFile) {
                 $totalSize += $transferFile->size;
                 $fileNames .= $transferFile->original_name . "<br>";
             }
@@ -180,18 +175,18 @@ class UploadController extends BaseController {
 
             $transferMessage = Input::get('message');
 
-            $downloadURL = url('/downloadTransfer/'.$transferData->unique_id);
-    //        $downloadURL = $_SERVER['SERVER_NAME'] . "/downloadTransfer/" . $transferid . "/" . $transferData->unique_id;
+            $downloadURL = url('/downloadTransfer/' . $transferData->unique_id);
+            //        $downloadURL = $_SERVER['SERVER_NAME'] . "/downloadTransfer/" . $transferid . "/" . $transferData->unique_id;
 
             $recipientEmailListString = implode(';', $recipientEmailList);
             $data = [
-                'expirationDate'  => $expirationDate,
-                'totalSize'       => $totalSize,
-                'fileNames'       => $fileNames,
-                'senderEmail'     => $senderEmail,
-                'recipientEmail'  => $recipientEmailListString,
+                'expirationDate' => $expirationDate,
+                'totalSize' => $totalSize,
+                'fileNames' => $fileNames,
+                'senderEmail' => $senderEmail,
+                'recipientEmail' => $recipientEmailListString,
                 'transferMessage' => $transferMessage,
-                'downloadURL'     => $downloadURL,
+                'downloadURL' => $downloadURL,
             ];
 
 
@@ -212,16 +207,6 @@ class UploadController extends BaseController {
             $transferData->save();
 
             return Redirect::to('/')->with('message', 'Thank you!');
-        } else {
-            $errors = $v->messages();
-
-            return Redirect::back()->withErrors($v);
-
-            /*if ( ! empty( $errors ) ) {
-                foreach ( $errors->all() as $error ) {
-
-                }
-            }*/
         }
     }
 }
