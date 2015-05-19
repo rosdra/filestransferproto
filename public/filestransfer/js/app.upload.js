@@ -245,29 +245,43 @@ function Upload_Handler() {
         if(step == 1) {
             if ($('.items-holder').length == 0) {
                 newStepHolder.find('div.plus-icon').show();
-                newStepHolder.find('h3').html('Drag & Drop your files');
+                newStepHolder.find('h2').html('Drag & Drop your files');
                 newStepHolder.find('.btn-add').html('Select files');
+                newStepHolder.find('.items-holder').removeClass("ih-added");
+                // disable upload
                 $('.btn-upload').attr('disabled', 'disabled');
             }else {
-                newStepHolder.find('h3').html('Drag & Drop more files');
+                newStepHolder.find('h2').html('Drag & Drop more files');
                 newStepHolder.find('div.plus-icon').hide();
                 newStepHolder.find('.btn-add').html('Add more files');
+                newStepHolder.find('.items-holder').addClass("ih-added");
                 // enable upload
                 $('.btn-upload').removeAttr('disabled');
                 // prevent closing page
                 setConfirmClosePage();
             }
+            // active header step
+            $(".arrow").removeClass("active");
+            $(".arrow.select").addClass("active");
+
         }else if(step == 2){
             $('.btn-upload').hide();
             $('.btn-cancel').show();
+            // active header step
+            $(".arrow").removeClass("active");
+            $(".arrow.upload").addClass("active");
         }else if(step == 3){
             var items = newStepHolder.find('.items-holder');
-            items.find('.item-state').show();
+            items.addClass("ih-completed");
+            items.find('.item-success').show();
             //unbind closing page
             window.onbeforeunload = null;
             // show share
             $('#sharecontainer').show();
             $('#shareoptionstitle').show();
+            // active header step
+            $(".arrow").removeClass("active");
+            $(".arrow.sharing").addClass("active");
         }
     };
 

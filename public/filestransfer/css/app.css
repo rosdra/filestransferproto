@@ -939,11 +939,26 @@ textarea[name="photo[description]"] {
     margin-bottom: 12px;
     width: 100%;
 }
-.dropzone .addmore .box .items-holder
-,.box-solid .items-holder{
+.items-holder{
     text-align: left;
     max-height: 180px;
     overflow: auto;
+}
+.items-holder span.file-item{
+    background: #dedede none repeat scroll 0 0;
+    padding: 0 5px;
+}
+.ih-added{
+    background: #dedede none repeat scroll 0 0;
+}
+.ih-completed{
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+}
+.ih-completed span.file-item{
+    background-color: transparent !important;
+}
+.item-success{
+    color: #77a626;
 }
 .box-solid{
     border: 0.15em solid #b2b2b2;
